@@ -8,10 +8,10 @@
         <div class="col-sm-8 col-md-9">
           <ul class="ftr__contact">
             <li>
-              <a href="">{{ mail }}</a>
+              <a href="">info@avalonrussia.ru</a>
             </li>
             <li>
-              <a href="">{{ phone }}</a>
+              <a href="">8 925 220 47 28</a>
             </li>
           </ul>
         </div>
@@ -28,9 +28,6 @@
   </footer>
 </template>
 <script setup>
-const mail = useMail();
-const phone = usePhone();
-const adress = useAdress();
 </script>
 <style lang="">
 </style>

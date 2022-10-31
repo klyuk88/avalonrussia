@@ -20,9 +20,6 @@ if (!errorModels.value) {
   );
 }
 
-const mail = useMail();
-const phone = usePhone();
-const adress = useAdress();
 
 const { error: errorMainPage, data: mainPage } = await useFetch(
   runtimeConfig.apiURL +
@@ -39,12 +36,6 @@ if (!errorMainPage.value && mainPage.value.data.attributes.seo !== null) {
       },
     ],
   });
-}
-
-if (!errorMainPage.value) {
-  mail.value = mainPage.value.data.attributes.mail;
-  phone.value = mainPage.value.data.attributes.phone;
-  adress.value = mainPage.value.data.attributes.adress;
 }
 
 const { error: errorNews, data: news } = await useFetch(

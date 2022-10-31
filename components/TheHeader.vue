@@ -1,7 +1,4 @@
 <script setup>
-const mail = useMail()
-const phone = usePhone()
-const adress = useAdress()
 </script>
 <template>
   <header class="hdr">
@@ -12,14 +9,29 @@ const adress = useAdress()
             ><img src="@/assets/img/AvalonLogoGold.svg" alt="AvalonLogoGold"
           /></a>
         </div>
-        <div class="col-2 col-md-9">
+        <div class="col-md-3">
+          <div class="hdr__adrs">
+            <p class="header-contact-title">Главный офис</p>
+            <p class="adr-cntnt flx-algn">
+              <img src="@/assets/img/location-icon.svg" alt="" />
+              Волоколамское ш., д. 73
+            </p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="hdr__adrs">
+            <p class="header-contact-title">Торговая площадка</p>
+            <p class="adr-cntnt flx-algn">
+              <img src="@/assets/img/location-icon.svg" alt="" />
+              Летняя ул, д. 99
+            </p>
+          </div>
+        </div>
+        <div class="col-2 col-md-4">
           <div class="hdr__cntc">
             <div class="hdr__adrs">
-              <p class="adr-cntnt flx-algn">
-                <img src="@/assets/img/location-icon.svg" alt="" />{{adress}}
-              </p>
-              <a href="" class="adr-cntnt flx-algn"
-                ><img src="@/assets/img/phone-icon.svg" alt="" />{{phone}}</a>
+              <a href="" class="adr-cntnt flx-algn">
+                <img src="@/assets/img/phone-icon.svg" alt="" />8 925 220 47 28</a>
             </div>
             <a href="/club" class="btn hdr__cntc_btn">Вступить в клуб</a>
             <div class="menu-adpt-icon">
@@ -31,14 +43,13 @@ const adress = useAdress()
         </div>
         <nav class="col-12 headr">
           <ul class="hdr__link">
-            <TheNav/>
+            <TheNav />
             <li class="adpt-items">
               <div class="hdr__adrs">
                 <p class="adr-cntnt flx-algn">
-                  <img src="@/assets/img/location-icon.svg" alt="" />{{adress}}
-                </p>
-                <a :href="`tel:${phone}`" class="adr-cntnt flx-algn"
-                  ><img src="@/assets/img/phone-icon.svg" alt="" />{{phone}}</a
+                  <img src="@/assets/img/location-icon.svg" alt="" />ул Летняя 99</p>
+                <a :href="`tel:`" class="adr-cntnt flx-algn"
+                  ><img src="@/assets/img/phone-icon.svg" alt="" />8-925-220-47-28</a
                 >
               </div>
               <a href="/club" class="btn hdr__cntc_btn">Вступить в клуб</a>
@@ -52,7 +63,11 @@ const adress = useAdress()
 
 
 <style lang="scss">
-.hdr__adrs{
+.hdr__adrs {
   margin-bottom: 15px;
+}
+.header-contact-title {
+  font-size: 16px;
+  font-weight: 400;
 }
 </style>

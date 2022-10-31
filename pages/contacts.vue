@@ -1,19 +1,6 @@
 <script setup>
-const mail = useMail();
-const phone = usePhone();
-const adress = useAdress();
 const runtimeConfig = useRuntimeConfig();
 const test = ref(false);
-
-const { error: errorMainPage, data: mainPage } = await useFetch(
-  runtimeConfig.apiURL + "/api/main-page"
-);
-
-if (!errorMainPage.value) {
-  mail.value = mainPage.value.data.attributes.mail;
-  phone.value = mainPage.value.data.attributes.phone;
-  adress.value = mainPage.value.data.attributes.adress;
-}
 
 useHead({
     title: 'Контакты'
@@ -44,18 +31,16 @@ useHead({
           <div class="col-lg-6 data-cntct__data">
             <h3>Адрес</h3>
             <p>
-              {{adress }}
+              Летняя, 99
             </p>
             <div class="cntct_container">
               <div>
                 <h4>Телефон</h4>
-                <a :href="`tel:+${phone}`">{{phone}}</a>
+                <a :href="`tel:+`">8-925-220-47-28</a>
               </div>
               <div>
                 <h4>Email</h4>
-                <a :href="`mailto:${mail}`">{{
-                  mail
-                }}</a>
+                <a :href="`mailto:`">info@avalonrussia.ru</a>
               </div>
             </div>
           </div>
