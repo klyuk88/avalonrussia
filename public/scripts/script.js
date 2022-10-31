@@ -6,17 +6,6 @@ window.onload = function() {
     }, 500);
 }
 
-const menu = document.querySelector('.hdr__link');
-hamburger = document.querySelector('.menu-adpt-icon');
-
-function toggleMenu() {
-    hamburger.classList.toggle('check');
-    menu.classList.toggle('nav-open');
-}
-hamburger.addEventListener('click', toggleMenu);
-
-var myVar;
-
 
 const accordion = document.querySelectorAll('.abaut-acrd');
 

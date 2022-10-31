@@ -3,8 +3,8 @@ const runtimeConfig = useRuntimeConfig();
 const test = ref(false);
 
 useHead({
-    title: 'Контакты'
-})
+  title: "Контакты",
+});
 </script>
 <template>
   <div>
@@ -30,9 +30,21 @@ useHead({
           </div>
           <div class="col-lg-6 data-cntct__data">
             <h3>Адрес</h3>
-            <p>
-              Летняя, 99
-            </p>
+            <div class="row">
+              <div class="col-md-6">
+                <p>
+                  <span class="contacts-adress-title">Главный офис</span><br />
+                  Волоколамское ш. 73
+                </p>
+              </div>
+              <div class="col-md-6">
+                <p>
+                  <span class="contacts-adress-title">Торговая площадка</span><br />
+                  Летняя ул., 99
+                </p>
+              </div>
+            </div>
+
             <div class="cntct_container">
               <div>
                 <h4>Телефон</h4>
@@ -80,3 +92,11 @@ useHead({
     </section>
   </div>
 </template>
+
+<style lang="scss">
+.contacts-adress-title {
+  font-size: 16px;
+  font-weight: 400;
+}
+  
+</style>
