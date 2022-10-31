@@ -1,0 +1,409 @@
+<script setup>
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation } from "swiper";
+import { useRoute } from "vue-router";
+import { ref } from "vue";
+import "swiper/css";
+import "swiper/css/navigation";
+const modules = [Navigation];
+const runtimeConfig = useRuntimeConfig();
+const route = useRoute();
+const singleBoat = ref(null);
+const tabContent = ref("");
+const { error, data } = await useFetch(
+  () => `/api/boats?filters[slug][$eq]=${route.params.slug}&populate=*`,
+  { baseURL: runtimeConfig.apiURL }
+);
+if (!error.value) {
+  singleBoat.value = data.value.data[0];
+}
+
+if (singleBoat.value.attributes.bridge) {
+  tabContent.value = singleBoat.value.attributes.bridge;
+} else if (singleBoat.value.attributes.interior) {
+  tabContent.value = singleBoat.value.attributes.interior;
+} else if (singleBoat.value.attributes.exterior) {
+  tabContent.value = singleBoat.value.attributes.exterior;
+} else if (singleBoat.value.attributes.body) {
+  tabContent.value = singleBoat.value.attributes.body;
+}
+
+const tabActive = (tab) => {
+  if (tab === "bridge") {
+    tabContent.value = singleBoat.value.attributes.bridge;
+  } else if (tab === "interior") {
+    tabContent.value = singleBoat.value.attributes.interior;
+  } else if (tab === "exterior") {
+    tabContent.value = singleBoat.value.attributes.exterior;
+  } else if (tab === "body") {
+    tabContent.value = singleBoat.value.attributes.body;
+  }
+};
+const modal = useModal();
+const openModal = () => {
+  modal.value = true;
+};
+
+if (!error.value && data.value.data[0].attributes.seo !== null) {
+  useHead({
+    title: data.value.data[0].attributes.seo.metaTitle,
+    meta: [
+      {
+        name: "description",
+        content: data.value.data[0].attributes.seo.metaDescription,
+      },
+    ],
+  });
+}
+</script>
+
+<template>
+  <div v-if="!error">
+    <section class="slider-sectn animate">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div
+              class="product-slider"
+              v-if="singleBoat.attributes.gallery.data.length > 0"
+            >
+              <Swiper
+                :modules="modules"
+                :slides-per-view="1"
+                :space-between="15"
+                :navigation="{
+                  nextEl: '.product-slider-nav.next',
+                  prevEl: '.product-slider-nav.prev',
+                }"
+              >
+                <SwiperSlide
+                  v-for="(item, index) in singleBoat.attributes.gallery.data"
+                  :key="index"
+                >
+                  <div class="product-slider-item">
+                    <img
+                      :src="$config.public.apiURL + item.attributes.url"
+                      alt=""
+                    />
+                  </div>
+                </SwiperSlide>
+              </Swiper>
+              <span class="product-slider-nav prev">
+                <img src="@/assets/img/ind-right.svg" alt="" />
+              </span>
+              <span class="product-slider-nav next">
+                <img src="@/assets/img/ind-left.svg" alt="" />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="text-sectn animate">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 avalon-title">
+            <h2>{{ singleBoat.attributes.title }}</h2>
+            <div class="line-ttl"></div>
+          </div>
+          <div class="row">
+            <div class="col-lg mt-4 mt-xl-0">
+              <div
+                class="single-product-content"
+                v-html="singleBoat.attributes.about"
+              ></div>
+              <div class="col-12 text__btn-sect">
+                <a class="btn text__btn" @click.prevent="openModal"
+                  >Узнать стоиомсть</a
+                >
+              </div>
+            </div>
+            <div
+              class="col-lg order-first order-xl-last"
+              v-if="singleBoat.attributes.video"
+            >
+              <div class="video-block">
+                <iframe
+                  width="100%"
+                  style="aspect-ratio: 16/9"
+                  :src="`https://www.youtube-nocookie.com/embed/${singleBoat.attributes.video}?controls=0`"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <!-- <div class="single-product-video">
+              <img
+                src="@/assets/img/video-prev.jpg"
+                alt=""
+                class="video-cover"
+              />
+              <img src="@/assets/img/play.svg" alt="" class="video-play-btn" />
+            </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="prmtr-sect">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 prmtr-sect__title">
+            <h3>Параметры и комплектация</h3>
+            <div class="line-ttl"></div>
+          </div>
+          <div class="col-xl-6 prmtr-sect__prmtr">
+            <div class="single-product-tabs">
+              <div
+                class="single-product-tabs-item"
+                :class="{ active: tabContent === singleBoat.attributes.bridge }"
+                @click="tabActive('bridge')"
+                v-if="singleBoat.attributes.bridge"
+              >
+                Капитанский мостик
+              </div>
+              <div
+                class="single-product-tabs-item"
+                :class="{
+                  active: tabContent === singleBoat.attributes.interior,
+                }"
+                v-if="singleBoat.attributes.interior"
+                @click="tabActive('interior')"
+              >
+                Интерьер
+              </div>
+              <div
+                class="single-product-tabs-item"
+                :class="{
+                  active: tabContent === singleBoat.attributes.exterior,
+                }"
+                v-if="singleBoat.attributes.exterior"
+                @click="tabActive('exterior')"
+              >
+                Экстерьер
+              </div>
+              <div
+                class="single-product-tabs-item"
+                :class="{ active: tabContent === singleBoat.attributes.body }"
+                v-if="singleBoat.attributes.body"
+                @click="tabActive('body')"
+              >
+                Корпус
+              </div>
+            </div>
+
+            <div class="single-product-tab-content">
+              <div v-html="tabContent"></div>
+            </div>
+          </div>
+
+          <div class="col-xl-5 offset-xl-1 mt-4 mt-xl-0 prmtr-sect__abaut">
+            <div
+              class="abaut-acrd"
+              v-for="(item, index) in singleBoat.attributes.Parameters"
+              :key="index"
+              @click="openParam(index)"
+            >
+              <div class="abaut-acrd__title">
+                <p>
+                  Длина <span>{{ item.length }}</span> м
+                </p>
+                <img src="@/assets/img/more.svg" alt="" />
+              </div>
+              <div class="abaut-acrd__contnt">
+                <ul class="single-product-tab-content">
+                  <li class="prmtr">
+                    <div><p>Длина корпуса</p></div>
+                    <div>
+                      <span>{{ item.length }} м</span>
+                    </div>
+                  </li>
+                  <li class="prmtr">
+                    <div><p>Ширина корпуса</p></div>
+                    <div>
+                      <span>{{ item.width }} м</span>
+                    </div>
+                  </li>
+                  <li class="prmtr">
+                    <div><p>Кол-во пассажиров</p></div>
+                    <div>
+                      <span>{{ item.passegers }}</span>
+                    </div>
+                  </li>
+                  <li class="prmtr">
+                    <div><p>Сухой вес</p></div>
+                    <div>
+                      <span>{{ item.weight }} кг</span>
+                    </div>
+                  </li>
+                  <li class="prmtr">
+                    <div><p>Мощность двигателя</p></div>
+                    <div>
+                      <span>{{ item.power }} л/с</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div v-else>
+    <div class="container error-info">
+      <div class="row">
+        <div class="col-12">
+          <h2>
+            Кажется возникла ошибка загрузки данных, приносим свои извинения, мы
+            уже работаем над её исправлением...
+          </h2>
+          <img src="@/assets/img/yaht-02.png" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<style lang="scss">
+.product-slider {
+  .swiper {
+    height: auto;
+  }
+  .product-slider-item {
+    width: 100%;
+    position: relative;
+    aspect-ratio: 16/9;
+    @media (min-width: 1200px) {
+      height: 80vh;
+    }
+    img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+    }
+  }
+}
+.product-slider {
+  position: relative;
+  .product-slider-nav {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    img {
+      width: 22px;
+    }
+  }
+  .product-slider-nav.prev {
+    left: 100px;
+    display: none;
+    @media (min-width: 1200px) {
+      display: block;
+    }
+  }
+  .product-slider-nav.next {
+    right: 100px;
+    display: none;
+    @media (min-width: 1200px) {
+      display: block;
+    }
+  }
+}
+.container.error-info {
+  h2 {
+    padding: 30px 0;
+  }
+  img {
+    width: 100%;
+  }
+}
+.single-product-video {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  .video-cover {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .video-play-btn {
+    width: 110px;
+    height: 110px;
+    cursor: pointer;
+    z-index: 99;
+  }
+}
+.single-product-tabs {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  position: relative;
+  @media (max-width: 760px) {
+    flex-direction: column;
+  }
+  .single-product-tabs-item {
+    border: 2px solid rgb(222, 203, 157);
+    background: transparent;
+    padding: 10px 15px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-left: -2px;
+    cursor: pointer;
+    @media (max-width: 760px) {
+      width: 100%;
+    }
+  }
+  .single-product-tabs-item.active {
+    background: #c2a06e;
+    color: #fff;
+  }
+  .tabs-title {
+    position: absolute;
+    left: -50px;
+    transform: rotate(-90deg);
+  }
+}
+.abaut-acrd__contnt {
+  padding: 30px 0;
+  border-top: 2px solid #c2a06e;
+}
+
+.video-block {
+  margin-top: 30px;
+  @media (min-width: 960px) {
+    margin-top: 0;
+  }
+}
+
+.btn.text__btn {
+  height: 50px;
+  width: 70%;
+  @media (min-width: 960px) {
+    width: 257px;
+    height: 80px;
+  }
+}
+</style>
