@@ -1,22 +1,31 @@
 <script setup>
-const modal = useModal()
+const modal = useModal();
 const openModal = () => {
-  modal.value = true
+  modal.value = true;
+};
+const runtimeConfig = useRuntimeConfig();
+const { error, data: aboutPage } = await useFetch(
+  () => `/api/about-page?populate=seo`,
+  { baseURL: runtimeConfig.apiURL }
+);
+
+import { ref } from "vue";
+const seo = ref(null);
+if (!error.value) {
+  seo.value = aboutPage.value.data.attributes.seo;
 }
-const runtimeConfig = useRuntimeConfig()
-const {error, data: aboutPage} = await useFetch(() => `/api/about-page?populate=seo`, {baseURL: runtimeConfig.apiURL})
-
-
-if(!error.value && aboutPage.value.data.attributes.seo !== null) {
-useHead({
-  title: aboutPage.value.data.attributes.seo.metaTitle,
-  meta: [{ name: "description", content: aboutPage.value.data.attributes.seo.metaDescription }],
-});
-}
-
 </script>
 <template>
   <div>
+    <Head v-if="seo">
+      <Title>{{ seo.metaTitle }}</Title>
+      <Meta
+        name="description"
+        :content="seo.metaDescription"
+        v-if="seo.metaDescription"
+      />
+      <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
+    </Head>
     <section class="text-sectn animate">
       <div class="container">
         <div class="row">
@@ -24,11 +33,15 @@ useHead({
             <h2>Avalon - ваш личный отдых</h2>
             <div class="line-ttl"></div>
           </div>
-          <div class="about-content" v-if="!error" v-html="aboutPage.data.attributes.content">
-
-          </div>
+          <div
+            class="about-content"
+            v-if="!error"
+            v-html="aboutPage.data.attributes.content"
+          ></div>
           <div class="col-12 text__btn-sect">
-            <a href="#" class="btn text__btn" @click.prevent="openModal">Задать вопрос</a>
+            <a href="#" class="btn text__btn" @click.prevent="openModal"
+              >Задать вопрос</a
+            >
           </div>
         </div>
       </div>

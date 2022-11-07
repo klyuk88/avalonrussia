@@ -7,20 +7,23 @@ const { error, data: news } = await useFetch(
   `${runtimeConfig.apiURL}/api/news?filters[slug][$eq]=${route.params.slug}&populate=seo`
 );
 
-if(!error.value && news.value.data[0].attributes.seo !== null) {
-useHead({
-  title: news.value.data[0].attributes.seo.metaTitle,
-  meta: [{ name: "description", content: news.value.data[0].attributes.seo.metaDescription }],
-});
+const seo = ref(null);
+if (!error.value) {
+  seo.value = news.value.data[0].attributes.seo
 }
-
-
-
 </script>
-
 
 <template>
   <div>
+    <Head v-if="seo">
+      <Title>{{ seo.metaTitle }}</Title>
+      <Meta
+        name="description"
+        :content="seo.metaDescription"
+        v-if="seo.metaDescription"
+      />
+      <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
+    </Head>
     <section class="text-sectn animate">
       <div class="container">
         <div class="row" v-if="!error">

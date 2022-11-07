@@ -19,7 +19,7 @@ body {
   line-height: 28px;
   color: rgba(231, 231, 231, 0.8);
   background: #111111;
-  overflow-x: hidden!important;
+  /* overflow-x: hidden!important; */
 }
 
 button:active, button:focus {
@@ -298,7 +298,7 @@ footer {
 .hdr__cntc {
   padding-top: 6px;
   display: flex;
-  /* align-items: center; */
+  align-items: flex-start;
   justify-content: flex-end;
 }
 
@@ -981,7 +981,7 @@ a.text__btn:hover {
 }
 
 .ctlg-cont__block-title h3 {
-  font-size: 29px;
+  font-size: 20px;
   line-height: 31px;
   font-weight: 500;
   margin: 0 0 32px;
@@ -1363,17 +1363,16 @@ a.text__btn:hover {
 
 .menu-adpt-icon div:nth-last-of-type(2) {
   margin: 8.92px 0;
-  width: 24px;
 }
 
-.menu-adpt-icon:hover div {
+/* .menu-adpt-icon:hover div {
   background: #c2a06e;
-}
+} */
 
-.menu-adpt-icon:hover div:nth-last-of-type(2) {
+/* .menu-adpt-icon:hover div:nth-last-of-type(2) {
   background: #c2a06e;
   width: 33px;
-}
+} */
 
 .check div:nth-last-of-type(2) {
   display: none;

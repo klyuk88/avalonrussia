@@ -5,73 +5,65 @@ import { ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import qs from "qs";
 
+const runtimeConfig = useRuntimeConfig();
+
 const route = useRoute();
 const router = useRouter();
 
 const widthArr = ref([]);
 const lengthArr = ref([]);
-const paramsArr = ref([]);
-const lengthOptions = ref([]);
-const runtimeConfig = useRuntimeConfig();
 
+//значения из фильтра
 const selectLength = ref(null);
 const selectWidth = ref("any");
-const selectModel = ref("anyModel");
+const selectModel = ref("any");
 const selectStock = ref(false);
 
+//Параметры фильтра для запроса
 const lengthParam = ref("");
 const widthParam = ref("");
 const modelsParam = ref("");
 const stockParam = ref("");
 
-//запросы
+const pageLimit = ref(12)
+
+//Получаем лодки
 const {
-  refresh,
+  refresh: refresh,
   error: errorBoats,
   data: boats,
 } = await useFetch(
   () =>
-    `/api/boats?${lengthParam.value}${widthParam.value}${modelsParam.value}${stockParam.value}populate[thumbnail][fields][0]=url&populate[Parameters][fields]=*&fields[0]=title&fields[1]=slug`,
+    `/api/boats?${lengthParam.value}${widthParam.value}${modelsParam.value}${stockParam.value}populate[thumbnail][fields][0]=url&pagination[start]=0&pagination[limit]=${pageLimit.value}`,
   {
     baseURL: runtimeConfig.apiURL,
   }
 );
 
-const { error: errorModels, data: models } = await useFetch(
-  runtimeConfig.apiURL + "/api/models?populate=boats"
-);
+// Получаем параметры для фильтра
+const { error: paramsError, data: paramsData } = await useFetch(`/api/types`, {
+  baseURL: runtimeConfig.apiURL,
+});
 
-//Получаем параметры для фильтра
-if (!errorBoats.value) {
-  boats.value.data.forEach((element) => {
-    for (const property in element.attributes) {
-      if (property === "Parameters") {
-        paramsArr.value.push(element.attributes[property]);
+if (!paramsError.value) {
+  paramsData.value.data.forEach((item) => {
+    for (let prop in item.attributes) {
+      if (item.attributes.hasOwnProperty(prop)) {
+        prop === "length" ? lengthArr.value.push(item.attributes[prop]) : null;
+        prop === "width" ? widthArr.value.push(item.attributes[prop]) : null;
       }
     }
   });
+  lengthArr.value = [...new Set(lengthArr.value)];
+  widthArr.value = [...new Set(widthArr.value)];
 
-  paramsArr.value.forEach((item) => {
-    item.forEach((elem) => {
-      for (const property in elem) {
-        if (property === "length") {
-          lengthArr.value.push(elem[property]);
-        }
-        if (property === "width") {
-          widthArr.value.push(elem[property]);
-        }
-      }
-    });
-  });
-  lengthArr.value = lengthArr.value.filter((item, index) => {
-    return lengthArr.value.indexOf(item) === index;
-  });
-
-  widthArr.value = widthArr.value.filter((item, index) => {
-    return widthArr.value.indexOf(item) === index;
-  });
+  console.log();
 }
 
+//Модели + автофильтр по модели при перезагрзке стр
+const { error: errorModels, data: models } = await useFetch(
+  runtimeConfig.apiURL + "/api/models?populate=boats"
+);
 if (!errorModels.value) {
   models.value = models.value.data.filter(
     (item) => item.attributes.boats.data.length > 0
@@ -80,7 +72,7 @@ if (!errorModels.value) {
   models.value.forEach((item) => {
     if (item.attributes.slug === route.query.model) {
       selectModel.value = route.query.model;
-      modelsParam.value = `filters[models][slug][$eq]=${selectModel.value}&`;
+      modelsParam.value = `filters[model][slug][$eq]=${selectModel.value}&`;
       refresh();
     }
   });
@@ -90,17 +82,17 @@ if (!errorModels.value) {
 const showFilterBoats = async () => {
   router.replace({ query: {} });
   if (selectLength.value) {
-    lengthParam.value = `filters[Parameters][length][$eq]=${selectLength.value}&`;
+    lengthParam.value = `filters[types][length][$eq]=${selectLength.value}&`;
   } else {
     lengthParam.value = "";
   }
   if (selectWidth.value && selectWidth.value !== "any") {
-    widthParam.value = `filters[Parameters][width][$eq]=${selectWidth.value}&`;
+    widthParam.value = `filters[types][width][$eq]=${selectWidth.value}&`;
   } else {
     widthParam.value = "";
   }
-  if (selectWidth.value && selectModel.value !== "anyModel") {
-    modelsParam.value = `filters[models][slug][$eq]=${selectModel.value}&`;
+  if (selectModel.value && selectModel.value !== "any") {
+    modelsParam.value = `filters[model][slug][$eq]=${selectModel.value}&`;
     router.push({
       query: {
         model: selectModel.value,
@@ -116,25 +108,43 @@ const showFilterBoats = async () => {
   } else {
     stockParam.value = "";
   }
-
   await refresh();
 };
 
-useHead({
-    title: 'Каталог'
-})
+const nextPage = async () => {
+  pageLimit.value = pageLimit.value + 12
+  await refresh()
+}
+
+//СЕО теги
+const seo = ref(null);
+const { error: catalogPageError, data: catalogPageData } = await useFetch(
+  `/api/catalog-page?populate=seo`,
+  { baseURL: runtimeConfig.apiURL }
+);
+if (!catalogPageError.value) {
+  seo.value = catalogPageData.value.data.attributes.seo;
+}
 </script>
 
-
-
-
 <template>
-  <section class="text-sectn animate">
+  <section class="text-sectn animate catalog">
+    <Head v-if="seo">
+      <Title>{{ seo.metaTitle }}</Title>
+      <Meta
+        name="description"
+        :content="seo.metaDescription"
+        v-if="seo.metaDescription"
+      />
+      <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
+    </Head>
+
     <div class="container">
       <div class="row" v-if="!errorBoats">
         <div class="col-12 avalon-title">
           <h2>Каталог катеров</h2>
           <div class="line-ttl"></div>
+          <h4 class="find-models-count">Найдено моделей {{boats.meta.pagination.total}}</h4>
         </div>
         <div class="col-lg-4 filter">
           <div class="sticky">
@@ -179,7 +189,7 @@ useHead({
                 <input
                   type="radio"
                   id="anyModel"
-                  value="anyModel"
+                  value="any"
                   v-model="selectModel"
                 />
                 <label for="anyModel">Любая</label>
@@ -238,9 +248,9 @@ useHead({
                 </div>
               </a>
             </div>
-            <!-- <a class="avln_link"
-              >Показать больше <img src="@/assets/img/right-arrv.svg" alt=""
-            /></a> -->
+            <a class="avln_link" @click.prevent="nextPage" v-if="pageLimit < boats.meta.pagination.total">
+              Показать больше <img src="@/assets/img/right-arrv.svg" alt=""/>
+            </a>
           </div>
           <div class="row" v-else>
             <h2>Нет подходящих моделей, соответсвующих выбранным парамтерам</h2>
@@ -415,6 +425,16 @@ useHead({
   }
   input:checked {
     background: #c2a06e;
+  }
+}
+
+.catalog {
+  .line-ttl {
+    margin: 0;
+  }
+  .find-models-count {
+    text-align: right;
+    margin: 30px 0;
   }
 }
 </style>

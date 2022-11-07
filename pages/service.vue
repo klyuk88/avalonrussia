@@ -1,21 +1,32 @@
 <script setup>
-const modal = useModal()
+const modal = useModal();
 const openModal = () => {
-  modal.value = true
-}
-const runtimeConfig = useRuntimeConfig()
+  modal.value = true;
+};
+const runtimeConfig = useRuntimeConfig();
 
-const {error, data: service} = await useFetch(`${runtimeConfig.apiURL}/api/service-page?populate=seo`)
+const { error, data: service } = await useFetch(
+  `${runtimeConfig.apiURL}/api/service-page?populate=seo`
+);
 
-if(!error.value && service.value.data.attributes.seo !== null) {
-useHead({
-  title: service.value.data.attributes.seo.metaTitle,
-  meta: [{ name: "description", content: service.value.data.attributes.seo.metaDescription }],
-});
+import { ref } from "vue";
+const seo = ref(null);
+if (!error.value) {
+  seo.value = service.value.data.attributes.seo;
 }
 </script>
 <template>
   <div>
+    <Head v-if="seo">
+      <Title>{{ seo.metaTitle }}</Title>
+      <Meta
+        name="description"
+        :content="seo.metaDescription"
+        v-if="seo.metaDescription"
+      />
+      <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
+    </Head>
+
     <section class="text-sectn animate">
       <div class="container">
         <div class="row">
@@ -23,10 +34,16 @@ useHead({
             <h2>Сервис</h2>
           </div>
           <div class="col-12">
-            <div class="page-content" v-if="!error" v-html="service.data.attributes.content" ></div>
+            <div
+              class="page-content"
+              v-if="!error"
+              v-html="service.data.attributes.content"
+            ></div>
           </div>
           <div class="col-12 text__btn-sect">
-            <a href="#" class="btn text__btn" @click.prevent="openModal">Записаться</a>
+            <a href="#" class="btn text__btn" @click.prevent="openModal"
+              >Записаться</a
+            >
           </div>
         </div>
       </div>

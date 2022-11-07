@@ -1,3 +1,6 @@
+<script setup>
+
+</script>
 <template>
   <div id="loader">
     <div class="loader-content">
@@ -6,8 +9,5 @@
     </div>
   </div>
 </template>
-<script>
-export default {};
-</script>
 <style lang="">
 </style>

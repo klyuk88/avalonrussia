@@ -1,13 +1,25 @@
 <script setup>
+import { ref } from "vue";
 const runtimeConfig = useRuntimeConfig();
-const test = ref(false);
-
-useHead({
-  title: "Контакты",
+const seo = ref(null);
+const { error, data } = await useFetch(`/api/contacts-page?populate=seo`, {
+  baseURL: runtimeConfig.apiURL,
 });
+if (!error.value) {
+  seo.value = data.value.data.attributes.seo;
+}
 </script>
 <template>
   <div>
+    <Head v-if="seo">
+      <Title>{{ seo.metaTitle }}</Title>
+      <Meta
+        name="description"
+        :content="seo.metaDescription"
+        v-if="seo.metaDescription"
+      />
+      <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
+    </Head>
     <section class="data-cntct animate">
       <div class="container">
         <div class="row">
@@ -39,7 +51,8 @@ useHead({
               </div>
               <div class="col-md-6">
                 <p>
-                  <span class="contacts-adress-title">Торговая площадка</span><br />
+                  <span class="contacts-adress-title">Торговая площадка</span
+                  ><br />
                   Летняя ул., 99
                 </p>
               </div>
@@ -98,5 +111,4 @@ useHead({
   font-size: 16px;
   font-weight: 400;
 }
-  
 </style>

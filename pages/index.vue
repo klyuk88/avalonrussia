@@ -20,22 +20,14 @@ if (!errorModels.value) {
   );
 }
 
-
 const { error: errorMainPage, data: mainPage } = await useFetch(
   runtimeConfig.apiURL +
     "/api/main-page?populate[banner][fields][0]=url&populate=seo"
 );
 
-if (!errorMainPage.value && mainPage.value.data.attributes.seo !== null) {
-  useHead({
-    title: mainPage.value.data.attributes.seo.metaTitle,
-    meta: [
-      {
-        name: "description",
-        content: mainPage.value.data.attributes.seo.metaDescription,
-      },
-    ],
-  });
+const seo = ref(null);
+if (!errorMainPage.value) {
+  seo.value = mainPage.value.data.attributes.seo;
 }
 
 const { error: errorNews, data: news } = await useFetch(
@@ -48,8 +40,21 @@ const { error: errorNews, data: news } = await useFetch(
 
 <template>
   <div class="">
+    <Head v-if="seo">
+      <Title>{{ seo.metaTitle }}</Title>
+      <Meta
+        name="description"
+        :content="seo.metaDescription"
+        v-if="seo.metaDescription"
+      />
+      <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
+    </Head>
     <section class="frst-scrn">
-      <img src="@/assets/img/avalon_bacground.png" alt="" class="frst-scrn-bg">
+      <img
+        src="@/assets/img/avalon_bacground.png"
+        alt=""
+        class="frst-scrn-bg"
+      />
       <div class="container">
         <div class="row">
           <div class="col-12 frst-scrn__title">
@@ -72,12 +77,12 @@ const { error: errorNews, data: news } = await useFetch(
             :breakpoints="{
               320: {
                 slidesPerView: 1,
-                navigation: false
+                navigation: false,
               },
               960: {
                 slidesPerView: 4,
-                navigation: true
-              }
+                navigation: true,
+              },
             }"
           >
             <SwiperSlide v-for="(item, index) in models" :key="index">
@@ -140,12 +145,12 @@ const { error: errorNews, data: news } = await useFetch(
             <div class="offer__cntnt">
               <a class="offer__image">
                 <img
+                  v-if="mainPage.data.attributes.banner.data && !errorMainPage"
                   :src="
                     $config.public.apiURL +
                     mainPage.data.attributes.banner.data.attributes.url
                   "
                   alt="Offer boat"
-                  v-if="!errorMainPage"
                 />
                 <img src="@/assets/img/Cont-01.png" alt="Offer boat" v-else />
               </a>
@@ -236,7 +241,7 @@ const { error: errorNews, data: news } = await useFetch(
     z-index: 100;
     display: none;
     // transform: translateY(50%);
-     @media (min-width: 960px) {
+    @media (min-width: 960px) {
       display: block;
     }
   }

@@ -1,19 +1,33 @@
 <script setup>
 import { ref } from "vue";
 const runtimeConfig = useRuntimeConfig();
-const { error: errorNews, data: news } = useFetch(
+const { error: errorNews, data: news } = await useFetch(
   () =>
     `/api/news?populate[thumbnail][fields][0]=url&fields[0]=title&fields[1]=slug&fields[2]=previewtext`,
   { baseURL: runtimeConfig.apiURL }
 );
-
-useHead({
-    title: 'Новости'
-})
+const { error: singleNewsError, data: singleNewsData } = await useFetch(
+  `/api/news-page?populate=seo`,
+  { baseURL: runtimeConfig.apiURL }
+);
+const seo = ref(null);
+if (!singleNewsError.value) {
+  seo.value = singleNewsData.value.data.attributes.seo;
+}
 </script>
 
 <template>
   <section class="news-cntnt animate">
+    <Head v-if="seo">
+      <Title>{{ seo.metaTitle }}</Title>
+      <Meta
+        name="description"
+        :content="seo.metaDescription"
+        v-if="seo.metaDescription"
+      />
+      <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
+    </Head>
+
     <div class="container">
       <div class="row">
         <div class="col-lg-6 avalon-title">
@@ -35,6 +49,7 @@ useHead({
             <a :href="`/press/${item.attributes.slug}`">
               <div class="nws-cntct">
                 <img
+                  v-if="item.attributes.thumbnail.data"
                   :src="
                     $config.public.apiURL +
                     item.attributes.thumbnail.data.attributes.url

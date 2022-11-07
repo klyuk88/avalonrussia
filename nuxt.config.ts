@@ -6,6 +6,7 @@ export default defineNuxtConfig({
         // <meta name="viewport" content="width=device-width, initial-scale=1">
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Компания Avalon производит понтонные катера с 1972 года. Ознакомьтесь с полной линейкой моделей понтонных катеров Avalon 2022.' },
+        { name: 'keywords', content: 'avalon, понтонные катера, заказать понтонный катер, заказать катер avalon' },
 
       ],
       link: [{

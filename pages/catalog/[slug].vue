@@ -9,13 +9,17 @@ const modules = [Navigation];
 const runtimeConfig = useRuntimeConfig();
 const route = useRoute();
 const singleBoat = ref(null);
+const videoID = ref(null);
 const tabContent = ref("");
 const { error, data } = await useFetch(
   () => `/api/boats?filters[slug][$eq]=${route.params.slug}&populate=*`,
   { baseURL: runtimeConfig.apiURL }
 );
+const seo = ref(null);
 if (!error.value) {
   singleBoat.value = data.value.data[0];
+  videoID.value = data.value.data[0].attributes.model.data.attributes.videoId;
+  seo.value = data.value.data[0].attributes.seo;
 }
 
 if (singleBoat.value.attributes.bridge) {
@@ -44,21 +48,24 @@ const openModal = () => {
   modal.value = true;
 };
 
-if (!error.value && data.value.data[0].attributes.seo !== null) {
-  useHead({
-    title: data.value.data[0].attributes.seo.metaTitle,
-    meta: [
-      {
-        name: "description",
-        content: data.value.data[0].attributes.seo.metaDescription,
-      },
-    ],
-  });
-}
+const paramIndex = ref(0);
+const openParam = (index) => {
+  paramIndex.value = index;
+};
+
 </script>
 
 <template>
   <div v-if="!error">
+    <Head v-if="seo">
+      <Title>{{ seo.metaTitle }}</Title>
+      <Meta
+        name="description"
+        :content="seo.metaDescription"
+        v-if="seo.metaDescription"
+      />
+      <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
+    </Head>
     <section class="slider-sectn animate">
       <div class="container-fluid">
         <div class="row">
@@ -119,29 +126,18 @@ if (!error.value && data.value.data[0].attributes.seo !== null) {
                 >
               </div>
             </div>
-            <div
-              class="col-lg order-first order-xl-last"
-              v-if="singleBoat.attributes.video"
-            >
+            <div class="col-lg order-first order-xl-last" v-if="videoID">
               <div class="video-block">
                 <iframe
                   width="100%"
                   style="aspect-ratio: 16/9"
-                  :src="`https://www.youtube-nocookie.com/embed/${singleBoat.attributes.video}?controls=0`"
+                  :src="`https://www.youtube-nocookie.com/embed/${videoID}?controls=0`"
                   title="YouTube video player"
                   frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
                   allowfullscreen
                 ></iframe>
               </div>
-              <!-- <div class="single-product-video">
-              <img
-                src="@/assets/img/video-prev.jpg"
-                alt=""
-                class="video-cover"
-              />
-              <img src="@/assets/img/play.svg" alt="" class="video-play-btn" />
-            </div> -->
             </div>
           </div>
         </div>
@@ -201,8 +197,10 @@ if (!error.value && data.value.data[0].attributes.seo !== null) {
           </div>
 
           <div class="col-xl-5 offset-xl-1 mt-4 mt-xl-0 prmtr-sect__abaut">
-            <div
+
+            <!-- <div
               class="abaut-acrd"
+              :class="paramIndex === index ? 'active' : ''"
               v-for="(item, index) in singleBoat.attributes.Parameters"
               :key="index"
               @click="openParam(index)"
@@ -247,7 +245,7 @@ if (!error.value && data.value.data[0].attributes.seo !== null) {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -312,14 +310,14 @@ if (!error.value && data.value.data[0].attributes.seo !== null) {
     left: 100px;
     display: none;
     @media (min-width: 1200px) {
-      display: block;
+      display: flex;
     }
   }
   .product-slider-nav.next {
     right: 100px;
     display: none;
     @media (min-width: 1200px) {
-      display: block;
+      display: flex;
     }
   }
 }
@@ -406,4 +404,33 @@ if (!error.value && data.value.data[0].attributes.seo !== null) {
     height: 80px;
   }
 }
+
+.single-product-content img {
+  width: 100%;
+}
+
+table.iksweb {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing:0;
+	height: auto;
+  }
+table.iksweb,table.iksweb td, table.iksweb th {
+	border: 2px solid #373737;
+  }
+table.iksweb td {
+  color: #c2a06e;
+  font-weight: 500;
+}
+table.iksweb td,table.iksweb th {
+	min-height: 35px;
+  padding: 10px;
+	width: 30px;
+	height: 35px;
+  }
+table.iksweb th {
+	color: #fff;
+	font-weight: 600;
+  // background: #c2a06e;
+  }
 </style>
