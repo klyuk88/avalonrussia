@@ -4,6 +4,8 @@
       return titleChunk ? `${titleChunk} ⏤ Avalon` : 'Понтонные катера премиум класса ⏤ Avalon';
     }
   })
+const agree = useCookie('agree-cookie')
+
 </script>
 <template>
   <div>
@@ -11,6 +13,7 @@
     <TheLoader />
     <TheHeader />
     <NuxtPage />
+    <TheCookie />
     <TheFooter />
   </div>
 </template>
