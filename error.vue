@@ -6,14 +6,24 @@ const handleError = () => clearError({ redirect: "/" });
 </script>
 <template>
   <TheHeader />
-  <div class="section error">
+  <section class="sec-404 animate">
     <div class="container">
-      <h1>Ошибка {{error.statusCode}}</h1>
-      <p>К сожалению возникла ошибка</p>
-      <a class="btn" href="/" @click="handleError">На главную</a>
+      <div class="row">
+        <div class="col-lg-7 sec-404__image">
+          <h1 class="error-title">{{error.statusCode}}</h1>
+        </div>
+        <div class="col-lg-5">
+          <div class="sec-404__text">
+            <p v-if="error.statusCode === '404'">Страница не найдена</p>
+            <p v-else>Возникла ошибка</p>
+            <a class="avln_link" href="/" @click.prevent="handleError"
+              >На главную <img src="@/assets/img/right-arrv.svg" alt=""
+            /></a>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-
+  </section>
   <TheFooter />
 </template>
 
@@ -31,5 +41,17 @@ p {
 .section.error {
   padding: 100px 0;
 }
-  
+
+.error-title {
+  font-weight: 900;
+  font-size: 25rem;
+  line-height: 1;
+  background-image: url("@/assets/img/club-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 </style>

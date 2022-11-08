@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 const runtimeConfig = useRuntimeConfig();
 const seo = ref(null);
 const { error, data } = await useFetch(`/api/contacts-page?populate=seo`, {
@@ -8,9 +8,29 @@ const { error, data } = await useFetch(`/api/contacts-page?populate=seo`, {
 if (!error.value) {
   seo.value = data.value.data.attributes.seo;
 }
+const contacts = await useContacts();
+const form = reactive({
+  name: null,
+  phone: null,
+  email: null,
+  message: null,
+  subject: "Заявка из формы контактов",
+});
+
+const sendForm = async () => {
+  try {
+    const res = await useFetch(`/api/send`, {
+      method: "post",
+      body: form,
+    });
+    navigateTo("/thanks")
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
 <template>
-  <div>
+  <div class="contacts-page">
     <Head v-if="seo">
       <Title>{{ seo.metaTitle }}</Title>
       <Meta
@@ -46,14 +66,14 @@ if (!error.value) {
               <div class="col-md-6">
                 <p>
                   <span class="contacts-adress-title">Главный офис</span><br />
-                  Волоколамское ш. 73
+                  {{ contacts.adressOffice }}
                 </p>
               </div>
               <div class="col-md-6">
                 <p>
                   <span class="contacts-adress-title">Торговая площадка</span
                   ><br />
-                  Летняя ул., 99
+                  {{ contacts.adressSelling }}
                 </p>
               </div>
             </div>
@@ -61,11 +81,17 @@ if (!error.value) {
             <div class="cntct_container">
               <div>
                 <h4>Телефон</h4>
-                <a :href="`tel:+`">8-925-220-47-28</a>
+                <a :href="`tel:+${contacts.phoneOffice}`">{{
+                  contacts.phoneSelling
+                }}</a
+                ><br /><br />
+                <a :href="`tel:+${contacts.phoneOffice}`">{{
+                  contacts.phoneOffice
+                }}</a>
               </div>
               <div>
                 <h4>Email</h4>
-                <a :href="`mailto:`">info@avalonrussia.ru</a>
+                <a :href="`mailto:${contacts.email}`">{{ contacts.email }}</a>
               </div>
             </div>
           </div>
@@ -77,27 +103,26 @@ if (!error.value) {
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <form class="form-container">
-              <!-- Hidden Required Fields -->
-              <input type="hidden" name="project_name" value="MangataMarine" />
-              <input
-                type="hidden"
-                name="admin_email"
-                value="klyukovskiy@yandex.ru"
-              />
-              <input type="hidden" name="form_subject" value="заявка с сайта" />
-              <!-- END Hidden Required Fields -->
+            <form class="form-container" @submit.prevent="sendForm">
               <label for="username">Имя</label>
-              <input id="username" placeholder="ваше имя" />
+              <input id="username" placeholder="ваше имя" v-model="form.name" />
               <label for="email">E-mail</label>
-              <input id="email" placeholder="ваш email" />
+              <input id="email" placeholder="ваш email" v-model="form.email" />
               <label for="phone">Телефон</label>
-              <input id="phone" placeholder="ваш телефон" />
+              <input
+                id="phone"
+                placeholder="ваш телефон"
+                v-model="form.message"
+              />
               <textarea
                 placeholder="Напишите ваше сообщение"
                 id="message"
               ></textarea>
               <button type="submit">Отправить</button>
+              <p class="form-agree-text">
+                Отправляя форму, согласен(а) с
+                <a href="/privacy-policy">политикой конфиденциальности</a>
+              </p>
             </form>
           </div>
         </div>
@@ -110,5 +135,18 @@ if (!error.value) {
 .contacts-adress-title {
   font-size: 16px;
   font-weight: 400;
+}
+.contacts-page + footer {
+  margin: 0;
+}
+.form-agree-text {
+  margin-top: 20px;
+  font-size: 15px;
+  a {
+    text-decoration: underline;
+  }
+  a:hover {
+    color: #fff;
+  }
 }
 </style>

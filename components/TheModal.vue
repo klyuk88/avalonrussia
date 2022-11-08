@@ -1,9 +1,29 @@
 <script setup>
+import { reactive } from 'vue'
 const modal = useModal();
 const modelText = useModalText();
 const closeModal = () => {
   modal.value = false;
 };
+const form = reactive({
+  subject: "Запрос стоимости",
+  name: null,
+  phone: null,
+  agree: true,
+  
+})
+const sendForm = async () => {
+  try {
+    const res = await useFetch(`/api/send`, {
+      method: "post",
+      body: form
+    })
+    await navigateTo("/thanks")
+    closeModal()
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>
 <template>
   <section class="modal" :class="{ active: modal }" id="modal">
@@ -17,22 +37,14 @@ const closeModal = () => {
       <p>
         {{ modelText.subTitle }}
       </p>
-      <form class="popup__form frm-avln">
-        <!-- Hidden Required Fields -->
-        <input type="hidden" name="project_name" value="MangataMarine" />
-        <input type="hidden" name="admin_email" value="klyukovskiy@yandex.ru" />
-        <input type="hidden" name="form_subject" value="заявка с сайта" />
-        <!-- END Hidden Required Fields -->
-        <input type="text" placeholder="Ваше имя" />
-        <input type="text" placeholder="Телефон" />
+      <form class="popup__form frm-avln" @submit.prevent="sendForm">
+        <input type="text" placeholder="Ваше имя" v-model="form.name" required/>
+        <input type="tel" placeholder="Телефон" v-model="form.phone" required/>
         <div class="popup__button">
           <button class="frm-avln__button" type="submit">Отправить</button>
           <div class="conf">
-            <input type="checkbox" class="custom-checkbox" id="conf" checked />
-            <label for="conf"
-              >Нажимая отправить, вы согласны с политикой
-              конфиденциальности</label
-            >
+            <input type="checkbox" class="custom-checkbox" id="conf" v-model="form.agree" required/>
+            <label for="conf">Согласен(а) с политикой конфиденциальности</label>
           </div>
         </div>
       </form>

@@ -1,3 +1,6 @@
+<script setup>
+const contacts = await useContacts()
+</script>
 <template>
   <footer class="ftr">
     <div class="container">
@@ -8,10 +11,13 @@
         <div class="col-sm-8 col-md-9">
           <ul class="ftr__contact">
             <li>
-              <a href="">info@avalonrussia.ru</a>
+              <a :href="`mailto:${contacts.email}`">{{contacts.email}}</a>
             </li>
             <li>
-              <a href="">8 925 220 47 28</a>
+              <a :href="`tel:${contacts.phoneOffice}`">{{contacts.phoneOffice}}</a>
+            </li>
+            <li>
+              <a :href="`tel:${contacts.phoneSelling}`">{{contacts.phoneSelling}}</a>
             </li>
           </ul>
         </div>
@@ -22,6 +28,7 @@
         </nav>
         <div class="col-12 ftr__cprtn">
           <p>2022, Avalon Rus</p>
+          <p><a href="/privacy-policy">Политика конфиденциальности</a></p>
         </div>
       </div>
     </div>

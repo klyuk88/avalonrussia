@@ -95,10 +95,10 @@ const openParam = (index) => {
                   </div>
                 </SwiperSlide>
               </Swiper>
-              <span class="product-slider-nav prev">
+              <span class="product-slider-nav prev" v-if="singleBoat.attributes.gallery.data.length > 1">
                 <img src="@/assets/img/ind-right.svg" alt="" />
               </span>
-              <span class="product-slider-nav next">
+              <span class="product-slider-nav next" v-if="singleBoat.attributes.gallery.data.length > 1">
                 <img src="@/assets/img/ind-left.svg" alt="" />
               </span>
             </div>
@@ -198,54 +198,54 @@ const openParam = (index) => {
 
           <div class="col-xl-5 offset-xl-1 mt-4 mt-xl-0 prmtr-sect__abaut">
 
-            <!-- <div
+            <div
               class="abaut-acrd"
               :class="paramIndex === index ? 'active' : ''"
-              v-for="(item, index) in singleBoat.attributes.Parameters"
+              v-for="(item, index) in singleBoat.attributes.types.data"
               :key="index"
               @click="openParam(index)"
             >
               <div class="abaut-acrd__title">
                 <p>
-                  Длина <span>{{ item.length }}</span> м
+                  {{item.attributes.title}}
                 </p>
-                <img src="@/assets/img/more.svg" alt="" />
+                <img src="@/assets/img/more.svg" alt="" class="close-tab-icon" :class="paramIndex === index ? 'active' : ''"/>
               </div>
               <div class="abaut-acrd__contnt">
                 <ul class="single-product-tab-content">
                   <li class="prmtr">
                     <div><p>Длина корпуса</p></div>
                     <div>
-                      <span>{{ item.length }} м</span>
+                      <span>{{ item.attributes.length }} м</span>
                     </div>
                   </li>
                   <li class="prmtr">
                     <div><p>Ширина корпуса</p></div>
                     <div>
-                      <span>{{ item.width }} м</span>
+                      <span>{{ item.attributes.width }} м</span>
                     </div>
                   </li>
                   <li class="prmtr">
                     <div><p>Кол-во пассажиров</p></div>
                     <div>
-                      <span>{{ item.passegers }}</span>
+                      <span>{{ item.attributes.passagers }}</span>
                     </div>
                   </li>
                   <li class="prmtr">
                     <div><p>Сухой вес</p></div>
                     <div>
-                      <span>{{ item.weight }} кг</span>
+                      <span>{{ item.attributes.weight }} кг</span>
                     </div>
                   </li>
                   <li class="prmtr">
                     <div><p>Мощность двигателя</p></div>
                     <div>
-                      <span>{{ item.power }} л/с</span>
+                      <span>{{ item.attributes.power }} л/с</span>
                     </div>
                   </li>
                 </ul>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -360,7 +360,7 @@ const openParam = (index) => {
     flex-direction: column;
   }
   .single-product-tabs-item {
-    border: 2px solid rgb(222, 203, 157);
+    border: 2px solid #c2a06e;
     background: transparent;
     padding: 10px 15px;
     flex-grow: 1;
@@ -433,4 +433,10 @@ table.iksweb th {
 	font-weight: 600;
   // background: #c2a06e;
   }
+.close-tab-icon {
+  transition: transform .2s ease;
+}
+.close-tab-icon.active {
+  transform: rotate(-45deg);
+}
 </style>

@@ -15,3 +15,10 @@
   </div>
 </template>
 
+<style lang="scss">
+html::-webkit-scrollbar-track {
+  background: orange;
+}
+  
+</style>
+

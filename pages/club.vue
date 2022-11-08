@@ -8,6 +8,21 @@ const seo = ref(null);
 if (!error.value) {
   seo.value = club.value.data.attributes.seo;
 }
+const form = reactive({
+  subject: "Заявка в клуб",
+  phone: null
+})
+const sendForm = async () => {
+  try {
+    const res = await useFetch(`/api/send`, {
+      method: "post",
+      body: form
+    })
+    await navigateTo("/thanks")
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>
 <template>
   <div class="club-page">
@@ -26,39 +41,14 @@ if (!error.value) {
       <div class="container">
         <div class="club-form">
           <h2 class="club-title">Вступить в клуб Avalon</h2>
-          <form class="club-form form-club__form frm-avln">
-            <input type="text" placeholder="Телефон" />
+          <form class="club-form form-club__form frm-avln" @submit.prevent="sendForm">
+            <input type="tel" placeholder="Телефон" v-model="form.phone" required/>
             <button class="frm-avln__button" type="submit">Отправить</button>
+            <p class="agree-text">Нажимая отправить согласен(а) с политикой конфиденциальности</p>
           </form>
         </div>
       </div>
     </section>
-
-    <!-- <section class="form-club animate">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-club__title avalon-title">
-              <h2>Записаться в клуб</h2>
-            </div>
-          </div>
-          <div class="col-12">
-            <form class="form-club__form frm-avln">
-              <input type="hidden" name="project_name" value="MangataMarine" />
-              <input
-                type="hidden"
-                name="admin_email"
-                value="klyukovskiy@yandex.ru"
-              />
-              <input type="hidden" name="form_subject" value="заявка с сайта" />
-              <input type="text" placeholder="Ваше имя" />
-              <input type="text" placeholder="Телефон" />
-              <button class="frm-avln__button" type="submit">Отправить</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section> -->
   </div>
 </template>
 <script>
@@ -126,5 +116,11 @@ export default {};
 }
 .club-page + footer {
   margin-top: 0;
+}
+
+.agree-text {
+  font-size: 14px;
+  color: #fff;
+  margin-top: 30px;
 }
 </style>

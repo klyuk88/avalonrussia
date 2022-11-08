@@ -25,7 +25,7 @@ const widthParam = ref("");
 const modelsParam = ref("");
 const stockParam = ref("");
 
-const pageLimit = ref(12)
+const pageLimit = ref(12);
 
 //Получаем лодки
 const {
@@ -112,9 +112,9 @@ const showFilterBoats = async () => {
 };
 
 const nextPage = async () => {
-  pageLimit.value = pageLimit.value + 12
-  await refresh()
-}
+  pageLimit.value = pageLimit.value + 12;
+  await refresh();
+};
 
 //СЕО теги
 const seo = ref(null);
@@ -144,7 +144,9 @@ if (!catalogPageError.value) {
         <div class="col-12 avalon-title">
           <h2>Каталог катеров</h2>
           <div class="line-ttl"></div>
-          <h4 class="find-models-count">Найдено моделей {{boats.meta.pagination.total}}</h4>
+          <h4 class="find-models-count">
+            Найдено моделей {{ boats.meta.pagination.total }}
+          </h4>
         </div>
         <div class="col-lg-4 filter">
           <div class="sticky">
@@ -248,8 +250,12 @@ if (!catalogPageError.value) {
                 </div>
               </a>
             </div>
-            <a class="avln_link" @click.prevent="nextPage" v-if="pageLimit < boats.meta.pagination.total">
-              Показать больше <img src="@/assets/img/right-arrv.svg" alt=""/>
+            <a
+              class="avln_link"
+              @click.prevent="nextPage"
+              v-if="pageLimit < boats.meta.pagination.total"
+            >
+              Показать больше <img src="@/assets/img/right-arrv.svg" alt="" />
             </a>
           </div>
           <div class="row" v-else>
@@ -303,6 +309,7 @@ if (!catalogPageError.value) {
     background: #c2a06e;
   }
 }
+
 .vs__selected {
   font-size: 18px;
   font-weight: 600;
@@ -437,5 +444,7 @@ if (!catalogPageError.value) {
     margin: 30px 0;
   }
 }
+
+
 </style>
 

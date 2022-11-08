@@ -70,10 +70,6 @@ const { error: errorNews, data: news } = await useFetch(
             :slides-per-view="4"
             :space-between="30"
             :modules="[Navigation]"
-            :navigation="{
-              nextEl: '.next-arrow',
-              prevEl: '.prev-arrow',
-            }"
             :breakpoints="{
               320: {
                 slidesPerView: 1,
@@ -81,7 +77,10 @@ const { error: errorNews, data: news } = await useFetch(
               },
               960: {
                 slidesPerView: 4,
-                navigation: true,
+                navigation: {
+                  nextEl: '.next-arrow',
+                  prevEl: '.prev-arrow',
+                },
               },
             }"
           >
@@ -239,8 +238,8 @@ const { error: errorNews, data: news } = await useFetch(
     left: -80px;
     top: 50%;
     z-index: 100;
+    cursor: pointer;
     display: none;
-    // transform: translateY(50%);
     @media (min-width: 960px) {
       display: block;
     }
@@ -250,8 +249,8 @@ const { error: errorNews, data: news } = await useFetch(
     right: -80px;
     top: 50%;
     z-index: 100;
+    cursor: pointer;
     display: none;
-    // transform: translateY(50%);
     @media (min-width: 960px) {
       display: block;
     }

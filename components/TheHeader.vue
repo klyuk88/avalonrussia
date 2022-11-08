@@ -3,6 +3,7 @@ const menu = useMenu();
 const openMenu = () => {
   menu.value = !menu.value;
 };
+const contacts = await useContacts()
 </script>
 <template>
   <header class="hdr">
@@ -18,7 +19,7 @@ const openMenu = () => {
             <p class="header-contact-title">Главный офис</p>
             <p class="adr-cntnt flx-algn">
               <img src="@/assets/img/location-icon.svg" alt="" />
-              Волоколамское ш., д. 73
+              {{contacts.adressOffice}}
             </p>
           </div>
         </div>
@@ -27,7 +28,7 @@ const openMenu = () => {
             <p class="header-contact-title">Торговая площадка</p>
             <p class="adr-cntnt flx-algn">
               <img src="@/assets/img/location-icon.svg" alt="" />
-              Летняя ул, д. 99
+              {{contacts.adressSelling}}
             </p>
           </div>
         </div>
@@ -35,11 +36,9 @@ const openMenu = () => {
           <div class="hdr__cntc">
             <div class="hdr__adrs">
               <a href="" class="adr-cntnt flx-algn">
-                <img src="@/assets/img/phone-icon.svg" alt="" />8 495 532 62 36
-              </a>
+                <img src="@/assets/img/phone-icon.svg" alt="" />{{contacts.phoneOffice}}</a>
               <a href="" class="adr-cntnt flx-algn">
-                <img src="@/assets/img/phone-icon.svg" alt="" />8 495 780 31 61
-              </a>
+                <img src="@/assets/img/phone-icon.svg" alt="" />{{contacts.phoneSelling}}</a>
             </div>
             <a href="/club" class="btn hdr__cntc_btn">Вступить в клуб</a>
             <div class="menu btn2" data-menu="2">
