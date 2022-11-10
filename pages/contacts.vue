@@ -18,14 +18,14 @@ const form = reactive({
 });
 
 const sendForm = async () => {
-  try {
-    const res = await useFetch(`/api/send`, {
-      method: "post",
-      body: form,
-    });
+  const { error, data } = await useFetch(`/api/send`, {
+    method: "post",
+    body: form,
+  });
+  if (!error.value) {
     navigateTo("/thanks");
-  } catch (error) {
-    console.log(error);
+  } else {
+    console.log(data.value);
   }
 };
 </script>
