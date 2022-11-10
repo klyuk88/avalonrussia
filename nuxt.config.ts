@@ -16,7 +16,7 @@ export default defineNuxtConfig({
       },
       ],
       script: [
-        { src: '/scripts/script.js' }
+        // { src: '/scripts/script.js' }
       ],
     }
   },
@@ -24,10 +24,10 @@ export default defineNuxtConfig({
     "@/assets/fonts/font.css",
     "@/assets/css/bootstrap-grid.min.css",
     "@/assets/css/style.css",
-],
-runtimeConfig: {
-  public: {
-    apiURL: 'http://localhost:1337'
- }
-},
+  ],
+  runtimeConfig: {
+    public: {
+      apiURL: process.env.NODE_ENV === "development" ? "http://localhost:1337" : "http://localhost:1337"
+    }
+  },
 })

@@ -1,7 +1,7 @@
 <script setup>
-import { useRoute } from "vue-router";
 import { ref } from "vue";
 const route = useRoute();
+
 const menu = ref([
   {
     slug: "/",
@@ -38,16 +38,19 @@ const menu = ref([
 ]);
 </script>
 <template>
-  <li v-for="(item, index) in menu" :key="index">
-    <a :href="item.slug" class="nav-lnk" :class="{active: route.path === item.slug ? true : false}">
-      {{item.title}}
-    </a>
-  </li>
+    <li v-for="(item, index) in menu" :key="index">
+      <NuxtLink
+        :to="item.slug"
+        class="nav-lnk"
+        :class="{ active: route.path === item.slug ? true : false }"
+      >
+        {{ item.title }}
+      </NuxtLink>
+    </li>
 </template>
 
 <style lang="scss">
 .nav-lnk.active {
-  color: #c2a06e
+  color: #c2a06e;
 }
-  
 </style>

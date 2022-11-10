@@ -61,11 +61,12 @@ if (!paramsError.value) {
 }
 
 //Модели + автофильтр по модели при перезагрзке стр
-const { error: errorModels, data: models } = await useFetch(
+const models = ref([])
+const { error: errorModels, data: modelsData } = await useFetch(
   runtimeConfig.apiURL + "/api/models?populate=boats"
 );
 if (!errorModels.value) {
-  models.value = models.value.data.filter(
+  models.value = modelsData.value.data.filter(
     (item) => item.attributes.boats.data.length > 0
   );
 

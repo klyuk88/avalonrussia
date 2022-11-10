@@ -303,7 +303,7 @@
                 Актуальная версия Политики в свободном доступе расположена в
                 сети Интернет по адресу&nbsp;
                 <p style="display: inline" id="politic">
-                  avalonrussia.ru/politica
+                  avalonrussia.ru/privacy-policy
                 </p>
                 .
               </li>

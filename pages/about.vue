@@ -30,7 +30,7 @@ if (!error.value) {
       <div class="container">
         <div class="row">
           <div class="col-12 avalon-title">
-            <h2>Avalon - ваш личный отдых</h2>
+            <h2>О компании Avalon</h2>
             <div class="line-ttl"></div>
           </div>
           <div

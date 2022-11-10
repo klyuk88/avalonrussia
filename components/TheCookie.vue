@@ -51,6 +51,12 @@ const setCookie = () => {
   &-btn:hover {
     background: #c2a06e;
   }
+}
 
+@media screen and (max-width: 768px) {
+    .cookie {
+      width: 100%;
+      
+    }
 }
 </style>

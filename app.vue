@@ -12,6 +12,7 @@ const agree = useCookie('agree-cookie')
     <TheModal />
     <TheLoader />
     <TheHeader />
+    <NuxtLoadingIndicator :color="`#c2a06e`" />
     <NuxtPage />
     <TheCookie />
     <TheFooter />

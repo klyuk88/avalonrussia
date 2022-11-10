@@ -46,8 +46,8 @@ const sendForm = async () => {
           <div class="col-lg-6 data-cntct__title">
             <h2>Свяжитесь с нами</h2>
             <p>
-              Если вам все еще нужна помощь, пожалуйста, не стесняйтесь
-              обращаться к нам по телефону
+              Часы работы: <br>
+              пн-пт ⏤ с 9 до 18
             </p>
             <div class="map-cntct">
               <client-only>
@@ -136,9 +136,7 @@ const sendForm = async () => {
   font-size: 16px;
   font-weight: 400;
 }
-.contacts-page + footer {
-  margin: 0;
-}
+
 .form-agree-text {
   margin-top: 20px;
   font-size: 15px;

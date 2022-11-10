@@ -53,4 +53,5 @@ const sendForm = async () => {
   <div id="overlay" :class="{ active: modal }"></div>
 </template>
 <style lang="scss">
+
 </style>

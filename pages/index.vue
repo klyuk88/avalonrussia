@@ -10,12 +10,11 @@ import "swiper/css/navigation";
 
 const runtimeConfig = useRuntimeConfig();
 
-const { data: models, error: errorModels } = await useFetch(
-  runtimeConfig.apiURL +
-    "/api/models?populate[thumbnail][fields][0]=url&populate=boats"
-);
+const noEmptyModels = ref([])
+const { data: models, error: errorModels } = await useFetch(`${runtimeConfig.apiURL}/api/models?populate[thumbnail][fields][0]=url&populate=boats`);
+
 if (!errorModels.value) {
-  models.value = models.value.data.filter(
+  noEmptyModels.value = models.value.data.filter(
     (item) => item.attributes.boats.data.length > 0
   );
 }
@@ -84,7 +83,7 @@ const { error: errorNews, data: news } = await useFetch(
               },
             }"
           >
-            <SwiperSlide v-for="(item, index) in models" :key="index">
+            <SwiperSlide v-for="(item, index) in noEmptyModels" :key="index">
               <div class="col-lg-3 swiper-slide models__cntr">
                 <a :href="`/catalog?model=${item.attributes.slug}`">
                   <h3>{{ item.attributes.title }}</h3>
@@ -142,7 +141,7 @@ const { error: errorNews, data: news } = await useFetch(
         <div class="row">
           <div class="col-12">
             <div class="offer__cntnt">
-              <a class="offer__image">
+              <NuxtLink to="/service" class="offer__image">
                 <img
                   v-if="mainPage.data.attributes.banner.data && !errorMainPage"
                   :src="
@@ -152,7 +151,7 @@ const { error: errorNews, data: news } = await useFetch(
                   alt="Offer boat"
                 />
                 <img src="@/assets/img/Cont-01.png" alt="Offer boat" v-else />
-              </a>
+              </NuxtLink>
             </div>
           </div>
         </div>
@@ -288,4 +287,6 @@ const { error: errorNews, data: news } = await useFetch(
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
 </style>

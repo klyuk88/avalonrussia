@@ -1,7 +1,6 @@
 <script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation } from "swiper";
-import { useRoute } from "vue-router";
 import { ref } from "vue";
 import "swiper/css";
 import "swiper/css/navigation";

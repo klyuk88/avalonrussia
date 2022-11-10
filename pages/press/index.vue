@@ -30,11 +30,11 @@ if (!singleNewsError.value) {
 
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 avalon-title">
+        <div class="col avalon-title">
           <span>Публикации</span>
-          <h2>Катера, скорость, обзоры, истории, клуб avalon</h2>
+          <h2>Катера, обзоры, истории,<br>новости</h2>
         </div>
-        <div class="col-lg-6 avalon-title__text">
+        <div class="col avalon-title__text" v-if="seo.metaDescription">
           <p>
             Lorem ipsum dolor sit amet. Et assumenda eaque aut nesciunt ullam
             qui magni vitae vel consequatur
@@ -98,4 +98,6 @@ if (!singleNewsError.value) {
 .nws-cntct:hover {
   outline: solid 3px #c2a06e;
 }
+
+
 </style>

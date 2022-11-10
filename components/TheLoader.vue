@@ -9,5 +9,8 @@
     </div>
   </div>
 </template>
-<style lang="">
+<style lang="scss">
+  #loader {
+    display: none;
+  }
 </style>

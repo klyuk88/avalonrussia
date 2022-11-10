@@ -3,12 +3,12 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
   let transporter = nodemailer.createTransport({
-    host: "smtp.yandex.ru",
+    host: "smtp.mail.ru",
     port: 465,
     secure: true, // use TLS
     auth: {
-      user: "klyukovskiy",
-      pass: "Dmb!02072010",
+      user: "avalonrussia@mail.ru",
+      pass: "R^ztyaGAoP63",
     },
   });
 
@@ -28,8 +28,8 @@ export default defineEventHandler(async (event) => {
 
 try {
   let info = await transporter.sendMail({
-    from: 'klyukovskiy@yandex.ru', // sender address
-    to: "klyukovskiy@yandex.ru", // list of receivers
+    from: 'avalonrussia@mail.ru', // sender address
+    to: "pavlov@mangatamarine.ru", // list of receivers
     subject: "Заявка с сайта AvalonRus", // Subject line
     text: "", // plain text body
     html: htmlBody, // html body

@@ -4,15 +4,16 @@ const openMenu = () => {
   menu.value = !menu.value;
 };
 const contacts = await useContacts()
+
 </script>
 <template>
   <header class="hdr">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-10 col-md-3 hdr__logo">
-          <a href="/"
+          <NuxtLink to="/"
             ><img src="@/assets/img/AvalonLogoGold.svg" alt="AvalonLogoGold"
-          /></a>
+          /></NuxtLink>
         </div>
         <div class="col-3 d-none d-xl-block">
           <div class="hdr__adrs">
@@ -40,7 +41,7 @@ const contacts = await useContacts()
               <a href="" class="adr-cntnt flx-algn">
                 <img src="@/assets/img/phone-icon.svg" alt="" />{{contacts.phoneSelling}}</a>
             </div>
-            <a href="/club" class="btn hdr__cntc_btn">Вступить в клуб</a>
+            <NuxtLink to="/club" class="btn hdr__cntc_btn">Вступить в клуб</NuxtLink>
             <div class="menu btn2" data-menu="2">
               <div class="icon"></div>
             </div>
