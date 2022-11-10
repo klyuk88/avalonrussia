@@ -109,12 +109,10 @@ const showFilterBoats = async () => {
   } else {
     stockParam.value = "";
   }
-  await refresh();
 };
 
 const nextPage = async () => {
   pageLimit.value = pageLimit.value + 12;
-  await refresh();
 };
 
 //СЕО теги
