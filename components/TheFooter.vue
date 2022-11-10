@@ -1,16 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 const contacts = await useContacts();
-const route = useRoute()
-const noMargin = ref(false)
-if(route.name === "contacts") {
-  noMargin.value = true
-}
-
 </script>
 
 <template>
-  <footer class="ftr" :class="{'no-margin' : noMargin}">
+  <footer class="ftr">
     <div class="container">
       <div class="row">
         <div class="col-sm-4 col-md-3 ftr__logo">
@@ -35,7 +29,7 @@ if(route.name === "contacts") {
         </div>
         <nav class="col-12">
           <ul class="ftr__link">
-            <!-- <TheNav /> -->
+            <TheNav />
           </ul>
         </nav>
         <div class="col-12 ftr__cprtn">

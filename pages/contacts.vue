@@ -23,7 +23,7 @@ const sendForm = async () => {
       method: "post",
       body: form,
     });
-    navigateTo("/thanks")
+    navigateTo("/thanks");
   } catch (error) {
     console.log(error);
   }
@@ -46,7 +46,7 @@ const sendForm = async () => {
           <div class="col-lg-6 data-cntct__title">
             <h2>Свяжитесь с нами</h2>
             <p>
-              Часы работы: <br>
+              Часы работы: <br />
               пн-пт ⏤ с 9 до 18
             </p>
             <div class="map-cntct">
@@ -109,11 +109,14 @@ const sendForm = async () => {
               <label for="email">E-mail</label>
               <input id="email" placeholder="ваш email" v-model="form.email" />
               <label for="phone">Телефон</label>
-              <input
-                id="phone"
-                placeholder="ваш телефон"
-                v-model="form.message"
-              />
+              <ClientOnly>
+                <input
+                  id="phone"
+                  placeholder="ваш телефон"
+                  v-model="form.message"
+                  v-maska="'+7(###)###-##-##'"
+                />
+              </ClientOnly>
               <textarea
                 placeholder="Напишите ваше сообщение"
                 id="message"

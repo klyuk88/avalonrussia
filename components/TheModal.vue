@@ -39,7 +39,10 @@ const sendForm = async () => {
       </p>
       <form class="popup__form frm-avln" @submit.prevent="sendForm">
         <input type="text" placeholder="Ваше имя" v-model="form.name" required/>
-        <input type="tel" placeholder="Телефон" v-model="form.phone" required/>
+        <ClientOnly>
+           <input type="tel" v-maska="'+7(###) ### ## ##'" placeholder="Телефон" v-model="form.phone" required/>
+        </ClientOnly>
+       
         <div class="popup__button">
           <button class="frm-avln__button" type="submit">Отправить</button>
           <div class="conf">

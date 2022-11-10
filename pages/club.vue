@@ -42,7 +42,10 @@ const sendForm = async () => {
         <div class="club-form">
           <h2 class="club-title">Вступить в клуб Avalon</h2>
           <form class="club-form form-club__form frm-avln" @submit.prevent="sendForm">
-            <input type="tel" placeholder="Телефон" v-model="form.phone" required/>
+            <ClientOnly>
+            <input type="tel" placeholder="Телефон" v-model="form.phone" v-maska="'+7 (###) ### ## ##'" required/>
+            </ClientOnly>
+
             <button class="frm-avln__button" type="submit">Отправить</button>
             <p class="agree-text">Нажимая отправить согласен(а) с политикой конфиденциальности</p>
           </form>
