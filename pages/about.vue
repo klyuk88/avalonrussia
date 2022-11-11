@@ -26,7 +26,7 @@ if (!error.value) {
       />
       <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
     </Head>
-    <section class="text-sectn animate">
+    <section class="text-sectn animate about">
       <div class="container">
         <div class="row">
           <div class="col-12 avalon-title">
@@ -59,5 +59,8 @@ if (!error.value) {
   img {
     width: 100%;
   }
+}
+.about {
+  padding-bottom: 100px;
 }
 </style>

@@ -17,7 +17,7 @@ if (!error.value) {
 </script>
 
 <template>
-  <section class="text-sectn animate">
+  <section class="text-sectn animate pb-100">
     <Head v-if="seo">
       <Title>{{ seo.metaTitle }}</Title>
       <Meta

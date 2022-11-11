@@ -47,7 +47,7 @@ const contacts = await useContacts();
 <script setup>
 </script>
 <style lang="scss">
-.ftr.no-margin {
+.ftr {
   margin: 0;
 }
 @media screen and (max-width: 576px) {

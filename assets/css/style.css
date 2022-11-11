@@ -2573,4 +2573,14 @@ a.text__btn:hover {
 } 
 ::-webkit-scrollbar-corner {
   background-color: black;
-} 
+}
+
+.pb-100 {
+  padding-bottom: 150px;
+}
+
+@media (max-width: 576px) {
+  .pb-100 {
+    padding-bottom: 50px;
+  }
+}

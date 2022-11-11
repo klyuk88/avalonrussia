@@ -17,7 +17,7 @@ if (!singleNewsError.value) {
 </script>
 
 <template>
-  <section class="news-cntnt animate">
+  <section class="news-cntnt animate pb-100">
     <Head v-if="seo">
       <Title>{{ seo.metaTitle }}</Title>
       <Meta
@@ -98,6 +98,7 @@ if (!singleNewsError.value) {
 .nws-cntct:hover {
   outline: solid 3px #c2a06e;
 }
+
 
 
 </style>

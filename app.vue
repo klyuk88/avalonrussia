@@ -23,6 +23,5 @@ const agree = useCookie('agree-cookie')
 html::-webkit-scrollbar-track {
   background: orange;
 }
-  
 </style>
 

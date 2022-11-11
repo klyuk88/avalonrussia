@@ -435,6 +435,7 @@ if (!catalogPageError.value) {
 }
 
 .catalog {
+  padding-bottom: 100px;
   .line-ttl {
     margin: 0;
   }

@@ -288,5 +288,7 @@ const { error: errorNews, data: news } = await useFetch(
   text-overflow: ellipsis;
 }
 
-
+.news {
+  padding-bottom: 100px;
+}
 </style>

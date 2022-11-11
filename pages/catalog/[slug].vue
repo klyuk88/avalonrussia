@@ -118,7 +118,14 @@ const openParam = (index) => {
               <div
                 class="single-product-content"
                 v-html="singleBoat.attributes.about"
-              ></div>
+              >
+              </div>
+              <div v-if="singleBoat.attributes.schemaImages.data.length > 0">
+                 <img :src="$config.public.apiURL + item.attributes.url
+              " :alt="item.attributes.alternativeText" class="single-product-schema-image"
+              v-for="(item, index) in singleBoat.attributes.schemaImages.data" :key="index">
+              </div>
+             
               <div class="col-12 text__btn-sect">
                 <a class="btn text__btn" @click.prevent="openModal"
                   >Узнать стоиомсть</a
@@ -437,5 +444,12 @@ table.iksweb th {
 }
 .close-tab-icon.active {
   transform: rotate(-45deg);
+}
+
+.single-product-schema-image {
+  width: 50%;
+  @media screen and (max-width: 576px) {
+    width: 100%;
+  }
 }
 </style>
