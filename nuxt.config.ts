@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiURL: process.env.NODE_ENV === "production" ? "https://api.avalonrussia.ru" : "http://localhost:1337"
+      apiURL: "https://api.avalonrussia.ru"
     }
   },
 })
