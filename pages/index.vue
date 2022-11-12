@@ -291,4 +291,17 @@ const { error: errorNews, data: news } = await useFetch(
 .news {
   padding-bottom: 100px;
 }
+
+@media (max-width: 576px) {
+  .offer__cntnt {
+    overflow-x: hidden;
+    img {
+      width: 200%!important;
+      position: relative;
+      transform: translateX(-50%);
+    }
+  }
+
+}
+
 </style>

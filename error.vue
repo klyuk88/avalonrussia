@@ -6,7 +6,7 @@ const handleError = () => clearError({ redirect: "/" });
 </script>
 <template>
   <TheHeader />
-  <section class="sec-404 animate">
+  <section class="sec-404 animate pb-100">
     <div class="container">
       <div class="row">
         <div class="col-lg-7 sec-404__image">
@@ -53,5 +53,12 @@ p {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+
+@media (max-width: 576px) {
+  .error-title {
+    font-size: 200px;
+  }
 }
 </style>
