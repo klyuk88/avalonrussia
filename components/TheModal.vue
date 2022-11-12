@@ -6,7 +6,7 @@ const closeModal = () => {
   modal.value = false;
 };
 const form = reactive({
-  subject: "Запрос стоимости",
+  subject: "Из попап окна",
   name: null,
   phone: null,
   agree: true,

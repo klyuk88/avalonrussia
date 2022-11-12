@@ -15,9 +15,6 @@ export default defineNuxtConfig({
         href: '/favicon.png'
       },
       ],
-      script: [
-        // { src: '/scripts/script.js' }
-      ],
     }
   },
   css: [
@@ -27,7 +24,11 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiURL: "https://api.avalonrussia.ru"
+      apiURL: process.env.NODE_ENV === "development" ? "https://api.avalonrussia.ru" : "https://api.avalonrussia.ru"
     }
   },
+  nitro: {
+    preset: 'node-server',
+    node: true
+  }
 })

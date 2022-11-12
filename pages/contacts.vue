@@ -124,7 +124,7 @@ const sendForm = async () => {
               <button type="submit">Отправить</button>
               <p class="form-agree-text">
                 Отправляя форму, согласен(а) с
-                <a href="/privacy-policy">политикой конфиденциальности</a>
+                <NuxtLink to="/privacy-policy">политикой конфиденциальности</NuxtLink>
               </p>
             </form>
           </div>

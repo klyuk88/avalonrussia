@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
 try {
   let info = await transporter.sendMail({
     from: 'avalonrussia@mail.ru', // sender address
-    to: "klyukovskiy@yandex.ru", // list of receivers
+    to: "pavlov@mangatamarine.ru", // list of receivers
     subject: "Заявка с сайта AvalonRus", // Subject line
     text: "", // plain text body
     html: htmlBody, // html body

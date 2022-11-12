@@ -13,7 +13,7 @@ const setCookie = () => {
 <div>
   <div class="cookie" v-if="!agreeLocal && !agree">
     <p class="cookie-text">
-      Продолжая использовать наш сайт, вы даете <a href="/privacy-policy">согласие на обработку файлов cookie</a>, которые обеспечивают правильную работу сайта.
+      Продолжая использовать наш сайт, вы даете <NuxtLink to="/privacy-policy">согласие на обработку файлов cookie</NuxtLink>, которые обеспечивают правильную работу сайта.
     </p>
     <a href="#" class="btn cookie-btn" @click.prevent="setCookie">Ок</a>
   </div>
