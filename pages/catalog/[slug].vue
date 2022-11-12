@@ -125,7 +125,7 @@ const openParam = (index) => {
                 class="single-product-content"
                 v-html="singleBoat.attributes.about"
               ></div>
-              <div v-if="singleBoat.attributes.schemaImages.data.length > 0">
+              <div v-if="singleBoat.attributes.schemaImages">
                 <img
                   :src="$config.public.apiURL + item.attributes.url"
                   :alt="item.attributes.alternativeText"
