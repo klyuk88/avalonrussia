@@ -127,7 +127,7 @@ if (!catalogPageError.value) {
 </script>
 
 <template>
-  <section class="text-sectn animate catalog">
+  <section class="text-sectn animate catalog pb-100">
     <Head v-if="seo">
       <Title>{{ seo.metaTitle }}</Title>
       <Meta
@@ -264,10 +264,9 @@ if (!catalogPageError.value) {
       </div>
       <div class="row" v-else>
         <h1 style="margin-bottom: 30px">
-          Упс...Кажется произошла ошибка загрузки данных, мы уже работаем над ее
+          Пыроизошла ошибка загрузки данных, мы уже работаем над ее
           устранением.
         </h1>
-        <img src="@/assets/img/image.png" alt="" />
       </div>
     </div>
   </section>

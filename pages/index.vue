@@ -170,7 +170,7 @@ const { error: errorNews, data: news } = await useFetch(
               v-for="(item, index) in news.data"
               :key="index"
             >
-              <NuxtLink :to="'/press/' + item.attributes.slug" class="news__content">
+              <a :href="'/press/' + item.attributes.slug" class="news__content">
                 <div class="news__title">
                   <h3>{{ item.attributes.title }}</h3>
                   <span>{{
@@ -185,7 +185,7 @@ const { error: errorNews, data: news } = await useFetch(
                     <img src="@/assets/img/arrow.svg" alt="arrow" />
                   </div>
                 </div>
-              </NuxtLink>
+              </a>
             </div>
           </div>
 

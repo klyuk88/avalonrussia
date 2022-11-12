@@ -1,20 +1,21 @@
 <script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation } from "swiper";
-import { ref } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import "swiper/css";
 import "swiper/css/navigation";
 const modules = [Navigation];
 const runtimeConfig = useRuntimeConfig();
-const route = useRoute();
 const singleBoat = ref(null);
 const videoID = ref(null);
 const tabContent = ref("");
-const { error, data } = await useFetch(
-  () => `/api/boats?filters[slug][$eq]=${route.params.slug}&populate=*`,
-  { baseURL: runtimeConfig.apiURL }
+const route = useRoute()
+const { refresh, error, data } = await useFetch(`/api/boats?filters[slug][$eq]=${route.params.slug}&populate=*`,
+  {baseURL: runtimeConfig.apiURL,}
 );
+
 const seo = ref(null);
+
 if (!error.value) {
   singleBoat.value = data.value.data[0];
   videoID.value = data.value.data[0].attributes.model.data.attributes.videoId;
@@ -51,7 +52,6 @@ const paramIndex = ref(0);
 const openParam = (index) => {
   paramIndex.value = index;
 };
-
 </script>
 
 <template>
@@ -94,10 +94,16 @@ const openParam = (index) => {
                   </div>
                 </SwiperSlide>
               </Swiper>
-              <span class="product-slider-nav prev" v-if="singleBoat.attributes.gallery.data.length > 1">
+              <span
+                class="product-slider-nav prev"
+                v-if="singleBoat.attributes.gallery.data.length > 1"
+              >
                 <img src="@/assets/img/ind-right.svg" alt="" />
               </span>
-              <span class="product-slider-nav next" v-if="singleBoat.attributes.gallery.data.length > 1">
+              <span
+                class="product-slider-nav next"
+                v-if="singleBoat.attributes.gallery.data.length > 1"
+              >
                 <img src="@/assets/img/ind-left.svg" alt="" />
               </span>
             </div>
@@ -118,14 +124,18 @@ const openParam = (index) => {
               <div
                 class="single-product-content"
                 v-html="singleBoat.attributes.about"
-              >
-              </div>
+              ></div>
               <div v-if="singleBoat.attributes.schemaImages.data.length > 0">
-                 <img :src="$config.public.apiURL + item.attributes.url
-              " :alt="item.attributes.alternativeText" class="single-product-schema-image"
-              v-for="(item, index) in singleBoat.attributes.schemaImages.data" :key="index">
+                <img
+                  :src="$config.public.apiURL + item.attributes.url"
+                  :alt="item.attributes.alternativeText"
+                  class="single-product-schema-image"
+                  v-for="(item, index) in singleBoat.attributes.schemaImages
+                    .data"
+                  :key="index"
+                />
               </div>
-             
+
               <div class="col-12 text__btn-sect">
                 <a class="btn text__btn" @click.prevent="openModal"
                   >Узнать стоиомсть</a
@@ -150,7 +160,7 @@ const openParam = (index) => {
       </div>
     </section>
 
-    <section class="prmtr-sect">
+    <section class="prmtr-sect pb-100">
       <div class="container">
         <div class="row">
           <div class="col-12 prmtr-sect__title">
@@ -203,7 +213,6 @@ const openParam = (index) => {
           </div>
 
           <div class="col-xl-5 offset-xl-1 mt-4 mt-xl-0 prmtr-sect__abaut">
-
             <div
               class="abaut-acrd"
               :class="paramIndex === index ? 'active' : ''"
@@ -213,9 +222,14 @@ const openParam = (index) => {
             >
               <div class="abaut-acrd__title">
                 <p>
-                  {{item.attributes.title}}
+                  {{ item.attributes.title }}
                 </p>
-                <img src="@/assets/img/more.svg" alt="" class="close-tab-icon" :class="paramIndex === index ? 'active' : ''"/>
+                <img
+                  src="@/assets/img/more.svg"
+                  alt=""
+                  class="close-tab-icon"
+                  :class="paramIndex === index ? 'active' : ''"
+                />
               </div>
               <div class="abaut-acrd__contnt">
                 <ul class="single-product-tab-content">
@@ -262,10 +276,9 @@ const openParam = (index) => {
       <div class="row">
         <div class="col-12">
           <h2>
-            Кажется возникла ошибка загрузки данных, приносим свои извинения, мы
-            уже работаем над её исправлением...
+            Возникла ошибка загрузки данных, приносим свои извинения, мы уже
+            работаем над её исправлением...
           </h2>
-          <img src="@/assets/img/yaht-02.png" alt="" />
         </div>
       </div>
     </div>
@@ -416,31 +429,34 @@ const openParam = (index) => {
 }
 
 table.iksweb {
-	width: 100%;
-	border-collapse: collapse;
-	border-spacing:0;
-	height: auto;
-  }
-table.iksweb,table.iksweb td, table.iksweb th {
-	border: 2px solid #373737;
-  }
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  height: auto;
+}
+table.iksweb,
+table.iksweb td,
+table.iksweb th {
+  border: 2px solid #373737;
+}
 table.iksweb td {
   color: #c2a06e;
   font-weight: 500;
 }
-table.iksweb td,table.iksweb th {
-	min-height: 35px;
-  padding: 10px;
-	width: 30px;
-	height: 35px;
-  }
+table.iksweb td,
 table.iksweb th {
-	color: #fff;
-	font-weight: 600;
+  min-height: 35px;
+  padding: 10px;
+  width: 30px;
+  height: 35px;
+}
+table.iksweb th {
+  color: #fff;
+  font-weight: 600;
   // background: #c2a06e;
-  }
+}
 .close-tab-icon {
-  transition: transform .2s ease;
+  transition: transform 0.2s ease;
 }
 .close-tab-icon.active {
   transform: rotate(-45deg);
