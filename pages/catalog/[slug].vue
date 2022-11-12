@@ -1,46 +1,30 @@
 <script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation } from "swiper";
-import { ref, watch, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import "swiper/css";
 import "swiper/css/navigation";
-const modules = [Navigation];
 const runtimeConfig = useRuntimeConfig();
-const singleBoat = ref(null);
-const videoID = ref(null);
 const tabContent = ref("");
-const route = useRoute()
-const { refresh, error, data } = await useFetch(`/api/boats?filters[slug][$eq]=${route.params.slug}&populate=*`,
-  {baseURL: runtimeConfig.apiURL,}
+const route = useRoute();
+const {
+  refresh,
+  error,
+  data: boatsData,
+} = await useFetch(
+  () => `/api/boats?filters[slug][$eq]=${route.params.slug}&populate=*`,
+  { baseURL: runtimeConfig.apiURL }
 );
-
-const seo = ref(null);
-
-if (!error.value) {
-  singleBoat.value = data.value.data[0];
-  videoID.value = data.value.data[0].attributes.model.data.attributes.videoId;
-  seo.value = data.value.data[0].attributes.seo;
-}
-
-if (singleBoat.value.attributes.bridge) {
-  tabContent.value = singleBoat.value.attributes.bridge;
-} else if (singleBoat.value.attributes.interior) {
-  tabContent.value = singleBoat.value.attributes.interior;
-} else if (singleBoat.value.attributes.exterior) {
-  tabContent.value = singleBoat.value.attributes.exterior;
-} else if (singleBoat.value.attributes.body) {
-  tabContent.value = singleBoat.value.attributes.body;
-}
 
 const tabActive = (tab) => {
   if (tab === "bridge") {
-    tabContent.value = singleBoat.value.attributes.bridge;
+    tabContent.value = boatsData.value.data[0].attributes.bridge;
   } else if (tab === "interior") {
-    tabContent.value = singleBoat.value.attributes.interior;
+    tabContent.value = boatsData.value.data[0].attributes.interior;
   } else if (tab === "exterior") {
-    tabContent.value = singleBoat.value.attributes.exterior;
+    tabContent.value = boatsData.value.data[0].attributes.exterior;
   } else if (tab === "body") {
-    tabContent.value = singleBoat.value.attributes.body;
+    tabContent.value = boatsData.value.data[0].attributes.body;
   }
 };
 const modal = useModal();
@@ -52,18 +36,35 @@ const paramIndex = ref(0);
 const openParam = (index) => {
   paramIndex.value = index;
 };
+
+onMounted(async () => {
+  await refresh();
+  if (boatsData.value.data[0].attributes.bridge) {
+    tabContent.value = boatsData.value.data[0].attributes.bridge;
+  } else if (boatsData.value.data[0].attributes.interior) {
+    tabContent.value = boatsData.value.data[0].attributes.interior;
+  } else if (boatsData.value.data[0].attributes.exterior) {
+    tabContent.value = boatsData.value.data[0].attributes.exterior;
+  } else if (boatsData.value.data[0].attributes.body) {
+    tabContent.value = boatsData.value.data[0].attributes.body;
+  }
+});
 </script>
 
 <template>
   <div v-if="!error">
-    <Head v-if="seo">
-      <Title>{{ seo.metaTitle }}</Title>
+    <Head v-if="boatsData.data[0].attributes.seo">
+      <Title>{{ boatsData.data[0].attributes.seo.metaTitle }}</Title>
       <Meta
         name="description"
-        :content="seo.metaDescription"
-        v-if="seo.metaDescription"
+        :content="boatsData.data[0].attributes.seo.metaDescription"
+        v-if="boatsData.data[0].attributes.seo.metaDescription"
       />
-      <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
+      <Meta
+        name="keywords"
+        :content="boatsData.data[0].attributes.seo.keywords"
+        v-if="boatsData.data[0].attributes.keywords"
+      ></Meta>
     </Head>
     <section class="slider-sectn animate">
       <div class="container-fluid">
@@ -71,10 +72,10 @@ const openParam = (index) => {
           <div class="col-12">
             <div
               class="product-slider"
-              v-if="singleBoat.attributes.gallery.data.length > 0"
+              v-if="boatsData.data[0].attributes.gallery.data.length > 0"
             >
               <Swiper
-                :modules="modules"
+                :modules="[Navigation]"
                 :slides-per-view="1"
                 :space-between="15"
                 :navigation="{
@@ -83,7 +84,7 @@ const openParam = (index) => {
                 }"
               >
                 <SwiperSlide
-                  v-for="(item, index) in singleBoat.attributes.gallery.data"
+                  v-for="(item, index) in boatsData.data[0].attributes.gallery.data"
                   :key="index"
                 >
                   <div class="product-slider-item">
@@ -96,13 +97,13 @@ const openParam = (index) => {
               </Swiper>
               <span
                 class="product-slider-nav prev"
-                v-if="singleBoat.attributes.gallery.data.length > 1"
+                v-if="boatsData.data[0].attributes.gallery.data.length > 1"
               >
                 <img src="@/assets/img/ind-right.svg" alt="" />
               </span>
               <span
                 class="product-slider-nav next"
-                v-if="singleBoat.attributes.gallery.data.length > 1"
+                v-if="boatsData.data[0].attributes.gallery.data.length > 1"
               >
                 <img src="@/assets/img/ind-left.svg" alt="" />
               </span>
@@ -116,22 +117,22 @@ const openParam = (index) => {
       <div class="container">
         <div class="row">
           <div class="col-12 avalon-title">
-            <h2>{{ singleBoat.attributes.title }}</h2>
+            <h2>{{ boatsData.data[0].attributes.title }}</h2>
             <div class="line-ttl"></div>
           </div>
           <div class="row">
             <div class="col-lg mt-4 mt-xl-0">
               <div
                 class="single-product-content"
-                v-html="singleBoat.attributes.about"
+                v-html="boatsData.data[0].attributes.about"
               ></div>
-              <div v-if="singleBoat.attributes.schemaImages">
+              <div v-if="boatsData.data[0].attributes.schemaImages">
                 <img
                   :src="$config.public.apiURL + item.attributes.url"
                   :alt="item.attributes.alternativeText"
                   class="single-product-schema-image"
-                  v-for="(item, index) in singleBoat.attributes.schemaImages
-                    .data"
+                  v-for="(item, index) in boatsData.data[0].attributes
+                    .schemaImages.data"
                   :key="index"
                 />
               </div>
@@ -142,12 +143,15 @@ const openParam = (index) => {
                 >
               </div>
             </div>
-            <div class="col-lg order-first order-xl-last" v-if="videoID">
+            <div
+              class="col-lg order-first order-xl-last"
+              v-if="boatsData.data[0].attributes.model.data.attributes.videoId"
+            >
               <div class="video-block">
                 <iframe
                   width="100%"
                   style="aspect-ratio: 16/9"
-                  :src="`https://www.youtube-nocookie.com/embed/${videoID}?controls=0`"
+                  :src="`https://www.youtube-nocookie.com/embed/${boatsData.data[0].attributes.model.data.attributes.videoId}?controls=0`"
                   title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
@@ -171,36 +175,43 @@ const openParam = (index) => {
             <div class="single-product-tabs">
               <div
                 class="single-product-tabs-item"
-                :class="{ active: tabContent === singleBoat.attributes.bridge }"
+                :class="{
+                  active: tabContent === boatsData.data[0].attributes.bridge,
+                }"
                 @click="tabActive('bridge')"
-                v-if="singleBoat.attributes.bridge"
+                v-if="boatsData.data[0].attributes.bridge"
               >
                 Капитанский мостик
               </div>
+
               <div
                 class="single-product-tabs-item"
                 :class="{
-                  active: tabContent === singleBoat.attributes.interior,
+                  active: tabContent === boatsData.data[0].attributes.interior,
                 }"
-                v-if="singleBoat.attributes.interior"
+                v-if="boatsData.data[0].attributes.interior"
                 @click="tabActive('interior')"
               >
                 Интерьер
               </div>
+
               <div
                 class="single-product-tabs-item"
                 :class="{
-                  active: tabContent === singleBoat.attributes.exterior,
+                  active: tabContent === boatsData.data[0].attributes.exterior,
                 }"
-                v-if="singleBoat.attributes.exterior"
+                v-if="boatsData.data[0].attributes.exterior"
                 @click="tabActive('exterior')"
               >
                 Экстерьер
               </div>
+
               <div
                 class="single-product-tabs-item"
-                :class="{ active: tabContent === singleBoat.attributes.body }"
-                v-if="singleBoat.attributes.body"
+                :class="{
+                  active: tabContent === boatsData.data[0].attributes.body,
+                }"
+                v-if="boatsData.data[0].attributes.body"
                 @click="tabActive('body')"
               >
                 Корпус
@@ -216,7 +227,7 @@ const openParam = (index) => {
             <div
               class="abaut-acrd"
               :class="paramIndex === index ? 'active' : ''"
-              v-for="(item, index) in singleBoat.attributes.types.data"
+              v-for="(item, index) in boatsData.data[0].attributes.types.data"
               :key="index"
               @click="openParam(index)"
             >

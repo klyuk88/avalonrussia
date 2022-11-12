@@ -233,7 +233,7 @@ if (!catalogPageError.value) {
               v-for="(item, index) in boats.data"
               :key="index"
             >
-              <a :href="'/catalog/' + item.attributes.slug">
+              <NuxtLink :to="'/catalog/' + item.attributes.slug">
                 <div class="ctlg-cont__block">
                   <div class="ctlg-cont__block-title">
                     <h3>{{ item.attributes.title }}</h3>
@@ -247,7 +247,7 @@ if (!catalogPageError.value) {
                     alt=""
                   />
                 </div>
-              </a>
+              </NuxtLink>
             </div>
             <a
               class="avln_link"
