@@ -143,9 +143,12 @@ if (!catalogPageError.value) {
         <div class="col-12 avalon-title">
           <h2>Каталог катеров</h2>
           <div class="line-ttl"></div>
+          <ClientOnly>
           <h4 class="find-models-count">
             Найдено моделей {{ boats.meta.pagination.total }}
           </h4>
+          </ClientOnly>
+
         </div>
         <div class="col-lg-4 filter">
           <div class="sticky">

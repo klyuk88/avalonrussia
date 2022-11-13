@@ -1,29 +1,29 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 const runtimeConfig = useRuntimeConfig();
 const route = useRoute();
-const { error, data: news } = await useFetch(
-  `${runtimeConfig.apiURL}/api/news?filters[slug][$eq]=${route.params.slug}&populate=seo`
+const { refresh, error, data: news } = await useFetch(
+  () => `/api/news?filters[slug][$eq]=${route.params.slug}&populate=seo`,
+  {baseURL: runtimeConfig.apiURL}
 );
 
-const seo = ref(null);
-if (!error.value) {
-  seo.value = news.value.data[0].attributes.seo
-}
+onMounted(async() => {
+  await refresh()
+})
 </script>
 
 <template>
   <div>
-    <Head v-if="seo">
-      <Title>{{ seo.metaTitle }}</Title>
+    <Head v-if="news.data[0].attributes.seo">
+      <Title>{{ news.data[0].attributes.seo.metaTitle }}</Title>
       <Meta
         name="description"
-        :content="seo.metaDescription"
-        v-if="seo.metaDescription"
+        :content="news.data[0].attributes.seo.metaDescription"
+        v-if="news.data[0].attributes.seo.metaDescription"
       />
-      <Meta name="keywords" :content="seo.keywords" v-if="seo.keywords"></Meta>
+      <Meta name="keywords" :content="news.data[0].attributes.seo.keywords" v-if="news.data[0].attributes.seo.keywords"></Meta>
     </Head>
-    <section class="text-sectn animate">
+    <section class="text-sectn animate pb-100">
       <div class="container">
         <div class="row" v-if="!error">
           <div class="col-12 avalon-title">

@@ -36,6 +36,17 @@ const paramIndex = ref(0);
 const openParam = (index) => {
   paramIndex.value = index;
 };
+const slider = ref(null)
+const onSwiper = (swiper) => {
+  slider.value = swiper
+}
+
+const nextSlide = () => {
+  slider.value.slideNext()
+}
+const prevSlide = () => {
+  slider.value.slidePrev()
+}
 
 onMounted(async () => {
   await refresh();
@@ -49,6 +60,10 @@ onMounted(async () => {
     tabContent.value = boatsData.value.data[0].attributes.body;
   }
 });
+
+
+
+
 </script>
 
 <template>
@@ -75,6 +90,7 @@ onMounted(async () => {
               v-if="boatsData.data[0].attributes.gallery.data.length > 0"
             >
               <Swiper
+              @swiper="onSwiper"
                 :modules="[Navigation]"
                 :slides-per-view="1"
                 :space-between="15"
@@ -98,12 +114,14 @@ onMounted(async () => {
               <span
                 class="product-slider-nav prev"
                 v-if="boatsData.data[0].attributes.gallery.data.length > 1"
+                @click="prevSlide"
               >
                 <img src="@/assets/img/ind-right.svg" alt="" />
               </span>
               <span
                 class="product-slider-nav next"
                 v-if="boatsData.data[0].attributes.gallery.data.length > 1"
+                @click="nextSlide"
               >
                 <img src="@/assets/img/ind-left.svg" alt="" />
               </span>

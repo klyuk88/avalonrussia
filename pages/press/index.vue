@@ -46,7 +46,7 @@ if (!singleNewsError.value) {
         </div>
         <div class="row" v-if="!errorNews">
           <div class="col-md-6" v-for="(item, index) in news.data" :key="index">
-            <a :href="`/press/${item.attributes.slug}`">
+            <NuxtLink :to="`/press/${item.attributes.slug}`">
               <div class="nws-cntct">
                 <img
                   v-if="item.attributes.thumbnail.data"
@@ -59,11 +59,11 @@ if (!singleNewsError.value) {
                 <h3>{{ item.attributes.title }}</h3>
                 <p>{{ item.attributes.previewtext }}</p>
               </div>
-            </a>
+            </NuxtLink>
           </div>
         </div>
         <div class="row" v-else>
-          <h2>Загрузка...</h2>
+          <h2>Ошибка загрузки данных</h2>
         </div>
       </div>
     </div>
