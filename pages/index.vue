@@ -133,7 +133,6 @@ const prevSlide = () => {
                   "
                   alt="Offer boat"
                 />
-                <img src="@/assets/img/Cont-01.png" alt="Offer boat" v-else />
               </NuxtLink>
             </div>
           </div>
