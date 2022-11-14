@@ -1,6 +1,6 @@
 <script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { Navigation } from "swiper";
+import { Navigation, Pagination } from "swiper";
 import { ref, onMounted } from "vue";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -36,17 +36,17 @@ const paramIndex = ref(0);
 const openParam = (index) => {
   paramIndex.value = index;
 };
-const slider = ref(null)
+const slider = ref(null);
 const onSwiper = (swiper) => {
-  slider.value = swiper
-}
+  slider.value = swiper;
+};
 
 const nextSlide = () => {
-  slider.value.slideNext()
-}
+  slider.value.slideNext();
+};
 const prevSlide = () => {
-  slider.value.slidePrev()
-}
+  slider.value.slidePrev();
+};
 
 onMounted(async () => {
   await refresh();
@@ -60,10 +60,6 @@ onMounted(async () => {
     tabContent.value = boatsData.value.data[0].attributes.body;
   }
 });
-
-
-
-
 </script>
 
 <template>
@@ -90,17 +86,15 @@ onMounted(async () => {
               v-if="boatsData.data[0].attributes.gallery.data.length > 0"
             >
               <Swiper
-              @swiper="onSwiper"
-                :modules="[Navigation]"
+                @swiper="onSwiper"
+                :modules="[Pagination]"
+                :pagination="{ clickable: true }"
                 :slides-per-view="1"
                 :space-between="15"
-                :navigation="{
-                  nextEl: '.product-slider-nav.next',
-                  prevEl: '.product-slider-nav.prev',
-                }"
               >
                 <SwiperSlide
-                  v-for="(item, index) in boatsData.data[0].attributes.gallery.data"
+                  v-for="(item, index) in boatsData.data[0].attributes.gallery
+                    .data"
                   :key="index"
                 >
                   <div class="product-slider-item">
@@ -318,6 +312,15 @@ onMounted(async () => {
   .swiper {
     height: auto;
   }
+  .swiper-pagination {
+    display: none;
+    @media screen and (max-width: 768px) {
+      display: block;
+    }
+    .swiper-pagination-bullet.swiper-pagination-bullet-active {
+      background: #c2a06e;
+    }
+  }
   .product-slider-item {
     width: 100%;
     position: relative;
@@ -357,14 +360,14 @@ onMounted(async () => {
   .product-slider-nav.prev {
     left: 100px;
     display: none;
-    @media (min-width: 1200px) {
+    @media (min-width: 960px) {
       display: flex;
     }
   }
   .product-slider-nav.next {
     right: 100px;
     display: none;
-    @media (min-width: 1200px) {
+    @media (min-width: 960px) {
       display: flex;
     }
   }

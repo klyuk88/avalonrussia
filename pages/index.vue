@@ -1,12 +1,13 @@
 <script setup>
 // Import Swiper Vue.js components
-import { Navigation } from "swiper";
+import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { ref } from "vue";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -78,19 +79,12 @@ const prevSlide = () => {
     <section class="models">
       <div class="container">
         <div class="models-slider" v-if="!errorModels">
-          <!-- navigation: {
-                  nextEl: '.next-arrow',
-                  prevEl: '.prev-arrow',
-                }, -->
           <Swiper
             @swiper="onSwiper"
+            :modules="[Pagination]"
             :slides-per-view="4"
             :space-between="30"
-            :modules="[Navigation]"
-            :navigation="{
-              nextEl: '.next-arrow',
-              prevEl: '.prev-arrow',
-            }"
+            :pagination="{ clickable: true }"
             :breakpoints="{
               320: {
                 slidesPerView: 1,
@@ -203,6 +197,16 @@ const prevSlide = () => {
 }
 .models-slider {
   position: relative;
+  .swiper-pagination {
+    display: none;
+    
+    @media screen and (max-width: 768px) {
+      display: block;
+    }
+    .swiper-pagination-bullet.swiper-pagination-bullet-active {
+      background: #c2a06e;
+    }
+  }
   .prev-arrow {
     position: absolute;
     left: -80px;
@@ -212,6 +216,10 @@ const prevSlide = () => {
     display: none;
     @media (min-width: 960px) {
       display: block;
+      left: -50px;
+    }
+    @media (min-width: 1024px) {
+      left: -80px;
     }
   }
   .next-arrow {
@@ -223,6 +231,10 @@ const prevSlide = () => {
     display: none;
     @media (min-width: 960px) {
       display: block;
+      right: -50px;
+    }
+    @media (min-width: 1024px) {
+      right: -80px;
     }
   }
   .swiper {

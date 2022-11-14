@@ -3,7 +3,6 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import { ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import qs from "qs";
 
 const runtimeConfig = useRuntimeConfig();
 
