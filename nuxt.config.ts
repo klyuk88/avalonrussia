@@ -15,6 +15,9 @@ export default defineNuxtConfig({
         href: '/favicon.png'
       },
       ],
+      script: [
+        { src: 'https://code.jivo.ru/widget/JGKIju88uK', async: true }
+      ]
     }
   },
   css: [
