@@ -10,7 +10,7 @@ const contacts = await useContacts()
   <header class="hdr">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-10 col-md-3 hdr__logo">
+        <div class="col-10 col-md-2 hdr__logo">
           <NuxtLink to="/"
             ><img src="@/assets/img/AvalonLogoGold.svg" alt="AvalonLogoGold"
           /></NuxtLink>
@@ -24,7 +24,7 @@ const contacts = await useContacts()
             </p>
           </div>
         </div>
-        <div class="col-2 d-none d-xl-block">
+        <div class="col-3 d-none d-xl-block">
           <div class="hdr__adrs">
             <p class="header-contact-title">Торговая площадка</p>
             <p class="adr-cntnt flx-algn">
@@ -33,7 +33,7 @@ const contacts = await useContacts()
             </p>
           </div>
         </div>
-        <div class="col-2 col-md-9 col-xl-4">
+        <div class="col-2 col-md-10 col-xl-4">
           <div class="hdr__cntc">
             <div class="hdr__adrs">
               <a :href="`tel:${contacts.phoneOffice}`" class="adr-cntnt flx-algn">
@@ -125,5 +125,10 @@ const contacts = await useContacts()
 }
 .btn.hdr__cntc_btn {
   display: none;
+}
+.hdr__logo {
+  img {
+    width: 150px;
+  }
 }
 </style>
