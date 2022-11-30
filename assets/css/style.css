@@ -590,9 +590,7 @@ a.text__btn:hover {
 
 .text__prtners img {
   margin-bottom: 40px;
-  display: block;
-  width: 17%;
-  height: 60px;
+  max-height: 100px;
 }
 
 .club__img-video {
@@ -2098,8 +2096,6 @@ a.text__btn:hover {
   .text__prtners img {
     margin-bottom: 26px;
     display: block;
-    width: 26%;
-    height: 50px;
   }
   .avalon-title h2 {
     font-size: 30px;
@@ -2301,8 +2297,6 @@ a.text__btn:hover {
   .text__prtners img {
     margin-bottom: 26px;
     display: block;
-    width: 28%;
-    height: 50px;
   }
   .frm-avln input::placeholder {
     color: #D1D1D1;
