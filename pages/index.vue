@@ -71,7 +71,7 @@ const prevSlide = () => {
       <div class="container">
         <div class="row">
           <div class="col-12 frst-scrn__title">
-            <h1 class="animate">Premium-class №1</h1>
+            <h1 class="animate">Понтонные катера премиум класса</h1>
           </div>
         </div>
       </div>
@@ -241,9 +241,10 @@ const prevSlide = () => {
   }
 }
 .frst-scrn h1 {
-  font-family: "Jura";
+  // font-family: "Jura";
   font-weight: 600;
   font-size: 45px;
+  line-height: 1.2;
   color: #c2a06e;
   @media (max-width: 576px) {
     font-size: 30px;

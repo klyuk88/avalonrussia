@@ -33,7 +33,7 @@ const contacts = await useContacts();
           </ul>
         </nav>
         <div class="col-12 ftr__cprtn">
-          <p>2022, Avalon Rus</p>
+          <p>2023, Avalonrussia</p>
           <p>
             <NuxtLink to="/privacy-policy"
               >Политика конфиденциальности</NuxtLink

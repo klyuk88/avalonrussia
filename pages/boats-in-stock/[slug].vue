@@ -1,3 +1,3 @@
 <template>
-  <SingleBoat/>
+   <SingleBoat/>
 </template>

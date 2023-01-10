@@ -7,8 +7,8 @@ export default defineEventHandler(async (event) => {
     port: 465,
     secure: true, // use TLS
     auth: {
-      user: "avalonrussia@mail.ru",
-      pass: "qf0m8xbvLSqJMNKYjt2s",
+      user: process.env.EMAIL_SMTP_USER,
+      pass: process.env.EMAIL_SMTP_PASS,
     },
   });
 
@@ -28,13 +28,13 @@ export default defineEventHandler(async (event) => {
 
 try {
   let info = await transporter.sendMail({
-    from: 'avalonrussia@mail.ru', // sender address
+    from: process.env.EMAIL_SMTP_USER, // sender address
     to: "pavlov@mangatamarine.ru", // list of receivers
     subject: "Заявка с сайта AvalonRus", // Subject line
     text: "", // plain text body
     html: htmlBody, // html body
   });
-  return event.res.end(); 
+  return 'ok' 
 } catch (error) {
   return event.res.statusCode = 400;
 }

@@ -16,7 +16,7 @@ const lengthArr = ref([]);
 const selectLength = ref(null);
 const selectWidth = ref("any");
 const selectModel = ref("any");
-const selectStock = ref(false);
+// const selectStock = ref(false);
 
 //Параметры фильтра для запроса
 const lengthParam = ref("");
@@ -33,7 +33,7 @@ const {
   data: boats,
 } = await useFetch(
   () =>
-    `/api/boats?${lengthParam.value}${widthParam.value}${modelsParam.value}${stockParam.value}populate[thumbnail][fields][0]=url&pagination[start]=0&pagination[limit]=${pageLimit.value}`,
+    `/api/boats?${lengthParam.value}${widthParam.value}${modelsParam.value}populate[thumbnail][fields][0]=url&pagination[start]=0&pagination[limit]=${pageLimit.value}&filters[instock][$eq]=false`,
   {
     baseURL: runtimeConfig.apiURL,
   }
@@ -103,11 +103,11 @@ const showFilterBoats = async () => {
     router.replace({ query: {} });
   }
 
-  if (selectStock.value) {
-    stockParam.value = `filters[instock][$eq]=${selectStock.value}&`;
-  } else {
-    stockParam.value = "";
-  }
+  // if (selectStock.value) {
+  //   stockParam.value = `filters[instock][$eq]=${selectStock.value}&`;
+  // } else {
+  //   stockParam.value = "";
+  // }
 };
 
 const nextPage = async () => {
@@ -214,11 +214,11 @@ if (!catalogPageError.value) {
               </div>
             </div>
 
-            <h6>Наличие</h6>
+            <!-- <h6>Наличие</h6>
             <div class="inStock">
               <input type="checkbox" name="" id="stock" v-model="selectStock" />
               <label for="stock"><span>В наличии</span></label>
-            </div>
+            </div> -->
 
             <a
               href="#"

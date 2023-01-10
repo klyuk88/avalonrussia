@@ -16,8 +16,8 @@ const menu = ref([
     title: "Каталог",
   },
   {
-    slug: "/club",
-    title: "Клуб",
+    slug: "/boats-in-stock",
+    title: "Катера в налчии",
   },
   {
     slug: "/service",
