@@ -49,5 +49,8 @@ onMounted(async() => {
   img {
     width: 100%;
   }
+  * {
+    color: #fff!important;
+  }
 }
 </style>

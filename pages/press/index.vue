@@ -34,12 +34,6 @@ if (!singleNewsError.value) {
           <span>Публикации</span>
           <h2>Катера, обзоры, истории,<br>новости</h2>
         </div>
-        <div class="col avalon-title__text" v-if="seo.metaDescription">
-          <p>
-            Lorem ipsum dolor sit amet. Et assumenda eaque aut nesciunt ullam
-            qui magni vitae vel consequatur
-          </p>
-        </div>
 
         <div class="col-12">
           <div class="line-ttl"></div>

@@ -38,10 +38,10 @@ const contacts = await useContacts()
             <div class="hdr__adrs">
               <a :href="`tel:${contacts.phoneOffice}`" class="adr-cntnt flx-algn">
                 <img src="@/assets/img/phone-icon.svg" alt="" />{{contacts.phoneOffice}}</a>
-              <a :href="`tel:${contacts.phoneSelling}`" class="adr-cntnt flx-algn">
-                <img src="@/assets/img/phone-icon.svg" alt="" />{{contacts.phoneSelling}}</a>
+              <!-- <a :href="`tel:${contacts.phoneSelling}`" class="adr-cntnt flx-algn">
+                <img src="@/assets/img/phone-icon.svg" alt="" />{{contacts.phoneSelling}}</a> -->
             </div>
-            <NuxtLink to="/club" class="btn hdr__cntc_btn">Вступить в клуб</NuxtLink>
+            <!-- <NuxtLink to="/club" class="btn hdr__cntc_btn">Вступить в клуб</NuxtLink> -->
             <div class="menu btn2" data-menu="2">
               <div class="icon"></div>
             </div>

@@ -81,10 +81,10 @@ const sendForm = async () => {
             <div class="cntct_container">
               <div>
                 <h4>Телефон</h4>
-                <a :href="`tel:+${contacts.phoneOffice}`">{{
+                <!-- <a :href="`tel:+${contacts.phoneOffice}`">{{
                   contacts.phoneSelling
                 }}</a
-                ><br /><br />
+                ><br /><br /> -->
                 <a :href="`tel:+${contacts.phoneOffice}`">{{
                   contacts.phoneOffice
                 }}</a>
