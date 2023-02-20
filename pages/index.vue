@@ -3,6 +3,7 @@
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { ref } from "vue";
+import qs from 'qs';
 
 // Import Swiper styles
 import "swiper/css";
@@ -22,9 +23,13 @@ if (!errorModels.value) {
   );
 }
 
+const query = qs.stringify({
+  populate: ['banner', 'seo']
+})
+
 const { error: errorMainPage, data: mainPage } = await useFetch(
   runtimeConfig.apiURL +
-    "/api/main-page?populate[banner][fields][0]=url&populate=seo"
+    `/api/main-page?${query}`
 );
 
 const seo = ref(null);
@@ -139,6 +144,17 @@ const prevSlide = () => {
         </div>
       </div>
     </section>
+
+    <section class="about pt-120" v-if="mainPage.data.attributes.aboutText">
+      <div class="container border-top-custom">
+        <div class="col-12 avalon-title pt-100">
+            <h2>О компании</h2>
+          </div>
+          <div v-html="mainPage.data.attributes.aboutText" class="text-white">
+          </div>
+      </div>
+    </section>
+
     <section class="news">
       <div class="container">
         <div class="row">
@@ -175,6 +191,7 @@ const prevSlide = () => {
         </div>
       </div>
     </section>
+
   </div>
 </template>
 <style lang="scss">

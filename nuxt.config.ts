@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiURL: process.env.API_URL
+      apiURL: process.env.NODE_ENV === 'production' ? process.env.API_URL : process.env.API_URL_DEV
     }
   },
   nitro: {

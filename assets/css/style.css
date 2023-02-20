@@ -2573,8 +2573,35 @@ a.text__btn:hover {
   padding-bottom: 150px;
 }
 
+.pt-100 {
+  padding-top: 100px;
+}
+
+.pt-120 {
+  padding-top: 120px;
+}
+
+.border-top-custom {
+  border-top: 2px solid rgba(222, 202, 157, 0.15);
+}
+
+.text-white {
+  color: #fff!important;
+}
+
+.text-white * {
+  color: #fff!important;
+}
+
 @media (max-width: 576px) {
   .pb-100 {
     padding-bottom: 50px;
+  }
+  .pt-100 {
+    padding-bottom: 50px;
+  }
+
+  .pt-120 {
+    padding-top: 60px;
   }
 }
