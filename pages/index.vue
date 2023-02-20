@@ -145,7 +145,7 @@ const prevSlide = () => {
       </div>
     </section>
 
-    <section class="about pt-120" v-if="mainPage.data.attributes.aboutText">
+    <section class="about pt-120" v-if="mainPage.data.attributes.aboutText !== null || mainPage.data.attributes.aboutText !== ''">
       <div class="container border-top-custom">
         <div class="col-12 avalon-title pt-100">
             <h2>О компании</h2>
