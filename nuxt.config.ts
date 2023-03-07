@@ -21,8 +21,8 @@ export default defineNuxtConfig({
     }
   },
   css: [
-    "@/assets/fonts/font.css",
     "@/assets/css/bootstrap-grid.min.css",
+    "@/assets/fonts/font.css",
     "@/assets/css/style.css",
   ],
   runtimeConfig: {
