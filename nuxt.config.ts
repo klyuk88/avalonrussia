@@ -16,7 +16,7 @@ export default defineNuxtConfig({
       },
       ],
       script: [
-        { src: 'https://code.jivo.ru/widget/JGKIju88uK', async: true }
+        // { src: 'https://code.jivo.ru/widget/JGKIju88uK', async: true }
       ]
     }
   },
@@ -30,8 +30,4 @@ export default defineNuxtConfig({
       apiURL: process.env.NODE_ENV === 'production' ? process.env.API_URL : process.env.API_URL_DEV
     }
   },
-  nitro: {
-    preset: 'node-server',
-    node: true
-  }
 })

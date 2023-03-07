@@ -3,7 +3,7 @@
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { ref } from "vue";
-import qs from 'qs';
+import qs from "qs";
 
 // Import Swiper styles
 import "swiper/css";
@@ -24,12 +24,11 @@ if (!errorModels.value) {
 }
 
 const query = qs.stringify({
-  populate: ['banner', 'seo']
-})
+  populate: ["banner", "seo"],
+});
 
 const { error: errorMainPage, data: mainPage } = await useFetch(
-  runtimeConfig.apiURL +
-    `/api/main-page?${query}`
+  runtimeConfig.apiURL + `/api/main-page?${query}`
 );
 
 const seo = ref(null);
@@ -84,38 +83,41 @@ const prevSlide = () => {
     <section class="models">
       <div class="container">
         <div class="models-slider" v-if="!errorModels">
-          <Swiper
-            @swiper="onSwiper"
-            :modules="[Pagination]"
-            :slides-per-view="4"
-            :space-between="30"
-            :pagination="{ clickable: true }"
-            :breakpoints="{
-              320: {
-                slidesPerView: 1,
-              },
-              960: {
-                slidesPerView: 4,
-              },
-            }"
-          >
-            <SwiperSlide v-for="(item, index) in noEmptyModels" :key="index">
-              <div class="col-lg-3 swiper-slide models__cntr">
-                <NuxtLink :to="`/catalog?model=${item.attributes.slug}`">
-                  <h3>{{ item.attributes.title }}</h3>
-                  <img
-                    :src="
-                      $config.public.apiURL +
-                      item.attributes.thumbnail.data.attributes.url
-                    "
-                    alt="WAKETOON"
-                  />
-                </NuxtLink>
-              </div>
-            </SwiperSlide>
-          </Swiper>
+          <client-only>
+            <Swiper
+              @swiper="onSwiper"
+              :modules="[Pagination]"
+              :slides-per-view="4"
+              :space-between="30"
+              :pagination="{ clickable: true }"
+              :breakpoints="{
+                320: {
+                  slidesPerView: 1,
+                },
+                960: {
+                  slidesPerView: 4,
+                },
+              }"
+            >
+              <SwiperSlide v-for="(item, index) in noEmptyModels" :key="index">
+                <div class="col-lg-3 swiper-slide models__cntr">
+                  <NuxtLink :to="`/catalog?model=${item.attributes.slug}`">
+                    <h3>{{ item.attributes.title }}</h3>
+                    <img
+                      :src="
+                        $config.public.apiURL +
+                        item.attributes.thumbnail.data.attributes.url
+                      "
+                      alt="WAKETOON"
+                    />
+                  </NuxtLink>
+                </div>
+              </SwiperSlide>
+            </Swiper>
+          </client-only>
+
           <div class="prev-arrow">
-            <img src="@/assets/img/ind-right.svg" alt="" @click="prevSlide"/>
+            <img src="@/assets/img/ind-right.svg" alt="" @click="prevSlide" />
           </div>
           <div class="next-arrow" @click="nextSlide">
             <img src="@/assets/img/ind-left.svg" alt="" />
@@ -145,13 +147,22 @@ const prevSlide = () => {
       </div>
     </section>
 
-    <section class="about pt-120" v-if="mainPage.data.attributes.aboutText !== null || mainPage.data.attributes.aboutText !== ''">
+    <section
+      class="about pt-120"
+      v-if="
+        mainPage.data.attributes.aboutText !== null ||
+        mainPage.data.attributes.aboutText !== ''
+      "
+    >
       <div class="container border-top-custom">
         <div class="col-12 avalon-title pt-100">
-            <h2>О компании</h2>
-          </div>
-          <div v-html="mainPage.data.attributes.aboutText" class="text-white">
-          </div>
+          <h2>О компании</h2>
+        </div>
+        <div
+
+          v-html="mainPage.data.attributes.aboutText"
+          class="text-white"
+        ></div>
       </div>
     </section>
 
@@ -168,7 +179,10 @@ const prevSlide = () => {
               v-for="(item, index) in news.data"
               :key="index"
             >
-              <NuxtLink :to="'/press/' + item.attributes.slug" class="news__content">
+              <NuxtLink
+                :to="'/press/' + item.attributes.slug"
+                class="news__content"
+              >
                 <div class="news__title">
                   <h3>{{ item.attributes.title }}</h3>
                   <ClientOnly>
@@ -191,7 +205,6 @@ const prevSlide = () => {
         </div>
       </div>
     </section>
-
   </div>
 </template>
 <style lang="scss">
@@ -215,7 +228,7 @@ const prevSlide = () => {
   position: relative;
   .swiper-pagination {
     display: none;
-    
+
     @media screen and (max-width: 768px) {
       display: block;
     }
