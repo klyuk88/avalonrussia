@@ -25,6 +25,20 @@ export default defineNuxtConfig({
     "@/assets/fonts/font.css",
     "@/assets/css/style.css",
   ],
+  modules: [
+    [
+      'yandex-metrika-module-nuxt3',
+      {
+        id: '92829287',
+        webvisor: true,
+        consoleLog: true,
+        clickmap: true,
+        // useCDN: false,
+        trackLinks: true,
+        // accurateTrackBounce: true,
+      }
+    ]
+  ],
   runtimeConfig: {
     public: {
       apiURL: process.env.NODE_ENV === 'production' ? process.env.API_URL : process.env.API_URL_DEV

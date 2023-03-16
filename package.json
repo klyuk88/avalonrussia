@@ -8,7 +8,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "3.0.0-rc.12",
+    "nuxt": "3.0.0",
     "sass": "^1.51.0",
     "sass-loader": "^13.0.0"
   },
@@ -17,6 +17,7 @@
     "nodemailer": "^6.8.0",
     "qs": "^6.11.0",
     "swiper": "^8.4.4",
-    "vue-select": "^4.0.0-beta.5"
+    "vue-select": "^4.0.0-beta.5",
+    "yandex-metrika-module-nuxt3": "^1.5.3"
   }
 }

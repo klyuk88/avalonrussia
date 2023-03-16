@@ -150,8 +150,8 @@ const prevSlide = () => {
     <section
       class="about pt-120"
       v-if="
-        mainPage.data.attributes.aboutText !== null ||
-        mainPage.data.attributes.aboutText !== ''
+        mainPage.data.attributes.aboutText !== null &&
+        mainPage.data.attributes.aboutText !== '<p></p>'
       "
     >
       <div class="container border-top-custom">
@@ -161,6 +161,24 @@ const prevSlide = () => {
         <div
 
           v-html="mainPage.data.attributes.aboutText"
+          class="text-white"
+        ></div>
+      </div>
+    </section>
+
+    <section
+      class="about pt-120"
+      v-if="
+        mainPage.data.attributes.design != null && mainPage.data.attributes.design != '<p></p>'
+      "
+    >
+      <div class="container border-top-custom">
+        <div class="col-12 avalon-title pt-100">
+          <h2>Конструкция</h2>
+        </div>
+        <div
+
+          v-html="mainPage.data.attributes.design"
           class="text-white"
         ></div>
       </div>
